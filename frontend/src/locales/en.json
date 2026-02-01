@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "Welcome to SUVIDHA",
+    "loading": "Loading...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "back": "Back",
+    "logout": "Logout",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "close": "Close"
+  },
+  "landing": {
+    "title": "Welcome to SUVIDHA 2026",
+    "subtitle": "Smart Urban Virtual Interactive Digital Helpdesk Assistant",
+    "citizenServices": "Citizen Services",
+    "departmentLogin": "Department Login",
+    "adminLogin": "Admin Login"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "mobileNumber": "Mobile Number",
+    "otp": "OTP",
+    "verifyOTP": "Verify OTP",
+    "resendOTP": "Resend OTP",
+    "officerId": "Officer ID",
+    "password": "Password",
+    "email": "Email",
+    "name": "Name",
+    "address": "Address",
+    "enterMobile": "Enter your mobile number",
+    "enterOTP": "Enter OTP sent to your mobile",
+    "enterOfficerId": "Enter your Officer ID",
+    "enterPassword": "Enter your password",
+    "enterEmail": "Enter your email",
+    "loginSuccess": "Login successful",
+    "registerSuccess": "Registration successful"
+  },
+  "citizen": {
+    "dashboard": "Dashboard",
+    "newComplaint": "New Complaint",
+    "trackComplaint": "Track Complaint",
+    "myComplaints": "My Complaints",
+    "complaintNumber": "Complaint Number",
+    "status": "Status",
+    "createdAt": "Created At",
+    "viewDetails": "View Details",
+    "downloadReceipt": "Download Receipt"
+  },
+  "complaint": {
+    "title": "Title",
+    "description": "Description",
+    "category": "Category",
+    "priority": "Priority",
+    "department": "Department",
+    "subDepartment": "Sub-Department",
+    "location": "Location",
+    "documents": "Documents",
+    "uploadDocuments": "Upload Documents",
+    "createComplaint": "Create Complaint",
+    "updateComplaint": "Update Complaint",
+    "addRemarks": "Add Remarks",
+    "remarks": "Remarks",
+    "noComplaints": "No complaints found"
+  },
+  "officer": {
+    "dashboard": "Officer Dashboard",
+    "assignedComplaints": "Assigned Complaints",
+    "subDepartment": "Sub-Department",
+    "updateStatus": "Update Status"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "departments": "Departments",
+    "subDepartments": "Sub-Departments",
+    "officers": "Officers",
+    "allComplaints": "All Complaints",
+    "createDepartment": "Create Department",
+    "createSubDepartment": "Create Sub-Department",
+    "createOfficer": "Create Officer",
+    "assignOfficer": "Assign Officer"
+  },
+  "status": {
+    "pending": "Pending",
+    "inProgress": "In Progress",
+    "resolved": "Resolved",
+    "rejected": "Rejected"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  }
+}

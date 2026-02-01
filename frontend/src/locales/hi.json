@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "सुविधा में आपका स्वागत है",
+    "loading": "लोड हो रहा है...",
+    "submit": "जमा करें",
+    "cancel": "रद्द करें",
+    "back": "वापस",
+    "logout": "लॉगआउट",
+    "save": "सहेजें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "close": "बंद करें"
+  },
+  "landing": {
+    "title": "सुविधा 2026 में आपका स्वागत है",
+    "subtitle": "स्मार्ट अर्बन वर्चुअल इंटरएक्टिव डिजिटल हेल्पडेस्क असिस्टेंट",
+    "citizenServices": "नागरिक सेवाएं",
+    "departmentLogin": "विभाग लॉगिन",
+    "adminLogin": "एडमिन लॉगिन"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "register": "पंजीकरण",
+    "mobileNumber": "मोबाइल नंबर",
+    "otp": "OTP",
+    "verifyOTP": "OTP सत्यापित करें",
+    "resendOTP": "OTP पुनः भेजें",
+    "officerId": "अधिकारी ID",
+    "password": "पासवर्ड",
+    "email": "ईमेल",
+    "name": "नाम",
+    "address": "पता",
+    "enterMobile": "अपना मोबाइल नंबर दर्ज करें",
+    "enterOTP": "अपने मोबाइल पर भेजा गया OTP दर्ज करें",
+    "enterOfficerId": "अपना अधिकारी ID दर्ज करें",
+    "enterPassword": "अपना पासवर्ड दर्ज करें",
+    "enterEmail": "अपना ईमेल दर्ज करें",
+    "loginSuccess": "लॉगिन सफल",
+    "registerSuccess": "पंजीकरण सफल"
+  },
+  "citizen": {
+    "dashboard": "डैशबोर्ड",
+    "newComplaint": "नई शिकायत",
+    "trackComplaint": "शिकायत ट्रैक करें",
+    "myComplaints": "मेरी शिकायतें",
+    "complaintNumber": "शिकायत नंबर",
+    "status": "स्थिति",
+    "createdAt": "बनाया गया",
+    "viewDetails": "विवरण देखें",
+    "downloadReceipt": "रसीद डाउनलोड करें"
+  },
+  "complaint": {
+    "title": "शीर्षक",
+    "description": "विवरण",
+    "category": "श्रेणी",
+    "priority": "प्राथमिकता",
+    "department": "विभाग",
+    "subDepartment": "उप-विभाग",
+    "location": "स्थान",
+    "documents": "दस्तावेज़",
+    "uploadDocuments": "दस्तावेज़ अपलोड करें",
+    "createComplaint": "शिकायत बनाएं",
+    "updateComplaint": "शिकायत अपडेट करें",
+    "addRemarks": "टिप्पणी जोड़ें",
+    "remarks": "टिप्पणियां",
+    "noComplaints": "कोई शिकायत नहीं मिली"
+  },
+  "officer": {
+    "dashboard": "अधिकारी डैशबोर्ड",
+    "assignedComplaints": "निर्दिष्ट शिकायतें",
+    "subDepartment": "उप-विभाग",
+    "updateStatus": "स्थिति अपडेट करें"
+  },
+  "admin": {
+    "dashboard": "एडमिन डैशबोर्ड",
+    "departments": "विभाग",
+    "subDepartments": "उप-विभाग",
+    "officers": "अधिकारी",
+    "allComplaints": "सभी शिकायतें",
+    "createDepartment": "विभाग बनाएं",
+    "createSubDepartment": "उप-विभाग बनाएं",
+    "createOfficer": "अधिकारी बनाएं",
+    "assignOfficer": "अधिकारी निर्दिष्ट करें"
+  },
+  "status": {
+    "pending": "लंबित",
+    "inProgress": "प्रगति में",
+    "resolved": "हल",
+    "rejected": "अस्वीकृत"
+  },
+  "priority": {
+    "low": "कम",
+    "medium": "मध्यम",
+    "high": "उच्च",
+    "urgent": "जरूरी"
+  }
+}

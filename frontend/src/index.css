@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Kiosk mode - prevent text selection for better touch experience */
+  .kiosk-mode {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Large touch-friendly buttons */
+  .btn-kiosk {
+    @apply px-8 py-6 text-2xl font-semibold rounded-lg shadow-lg;
+    @apply transition-all duration-200;
+    @apply active:scale-95;
+    min-height: 80px;
+    min-width: 200px;
+  }
+
+  /* High contrast for accessibility */
+  .btn-kiosk-primary {
+    @apply bg-primary-600 text-white;
+    @apply hover:bg-primary-700 active:bg-primary-800;
+  }
+
+  .btn-kiosk-secondary {
+    @apply bg-secondary-600 text-white;
+    @apply hover:bg-secondary-700 active:bg-secondary-800;
+  }
+
+  .btn-kiosk-success {
+    @apply bg-green-600 text-white;
+    @apply hover:bg-green-700 active:bg-green-800;
+  }
+
+  /* Input fields for kiosk */
+  .input-kiosk {
+    @apply px-6 py-4 text-xl rounded-lg border-2 border-gray-300;
+    @apply focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-200;
+    min-height: 60px;
+  }
+}
