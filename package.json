@@ -8,14 +8,13 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "node backend/index.js",
-    "dev": "nodemon backend/index.js",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
     "build": "echo 'No build step required for Node.js backend'",
     "seed": "node backend/scripts/seedDemoData.js",
     "clear-db": "node backend/scripts/clearDatabase.js",
     "reseed": "npm run clear-db && npm run seed",
     "demo-setup": "npm run seed",
-    "vercel-build": "echo 'Build completed'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -23,8 +22,7 @@
     "government",
     "kiosk",
     "mern",
-    "serverless",
-    "vercel"
+    "serverless"
   ],
   "author": "C-DAC Hackathon Team",
   "license": "ISC",
