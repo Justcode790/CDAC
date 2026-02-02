@@ -2,7 +2,7 @@
   "name": "suvidha-2026-backend",
   "version": "1.0.0",
   "description": "SUVIDHA 2026 - Smart Urban Virtual Interactive Digital Helpdesk Assistant - Backend API",
-  "main": "backend/index.js",
+  "main": "backend/server.js",
   "type": "commonjs",
   "engines": {
     "node": ">=18.0.0"
@@ -17,13 +17,6 @@
     "demo-setup": "npm run seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "smart-city",
-    "government",
-    "kiosk",
-    "mern",
-    "serverless"
-  ],
   "author": "C-DAC Hackathon Team",
   "license": "ISC",
   "dependencies": {

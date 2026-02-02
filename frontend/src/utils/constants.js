@@ -4,8 +4,22 @@
  * Application-wide constants and configuration
  */
 
-// API Configuration
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
+// Environment Detection
+const isDevelopment = import.meta.env.DEV;
+const isProduction = import.meta.env.PROD;
+
+// API Configuration with fallback
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
+  (isDevelopment ? 'http://localhost:5001/api' : 'http://13.60.195.81:5000/api');
+
+// App Configuration
+export const APP_CONFIG = {
+  name: 'SUVIDHA 2026',
+  version: import.meta.env.VITE_APP_VERSION || '1.0.0',
+  environment: import.meta.env.VITE_APP_ENV || (isDevelopment ? 'development' : 'production'),
+  isDevelopment,
+  isProduction
+};
 
 // User Roles
 export const ROLES = {

@@ -1,249 +1,302 @@
-# SUVIDHA 2026 - Frontend
+# 🏛️ SUVIDHA 2026 Frontend - Government Complaint Management
 
-Smart City Kiosk System Frontend built with React, Vite, and Tailwind CSS.
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/yourusername/suvidha-2026)
 
-## 🚀 Getting Started
+A modern, responsive React frontend for the SUVIDHA 2026 Government Complaint Management System.
 
-### Prerequisites
+## 🚀 Quick Start
 
-- Node.js (v18 or higher)
-- npm or yarn
+### Local Development
+```bash
+# Install dependencies
+npm install
 
-### Installation
+# Start development server
+npm run dev
 
-1. **Install dependencies**
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-2. **Configure environment variables**
-   Create a `.env` file in the frontend directory:
-   ```env
-   VITE_API_BASE_URL=http://localhost:5000/api
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Build for production**
-   ```bash
-   npm run build
-   ```
-
-5. **Preview production build**
-   ```bash
-   npm run preview
-   ```
-
-## 📁 Project Structure
-
-```
-frontend/
-├── src/
-│   ├── components/          # Reusable components
-│   │   ├── LanguageSwitcher.jsx
-│   │   └── ProtectedRoute.jsx
-│   ├── context/            # React Context providers
-│   │   ├── AuthContext.jsx
-│   │   └── LanguageContext.jsx
-│   ├── locales/            # Language files
-│   │   ├── en.json
-│   │   └── hi.json
-│   ├── pages/              # Page components
-│   │   ├── Landing.jsx
-│   │   ├── citizen/
-│   │   ├── officer/
-│   │   └── admin/
-│   ├── routes/             # Route configuration
-│   │   └── AppRoutes.jsx
-│   ├── services/           # API services
-│   │   ├── api.js
-│   │   ├── authService.js
-│   │   ├── complaintService.js
-│   │   ├── departmentService.js
-│   │   └── officerService.js
-│   ├── utils/              # Utility functions
-│   │   └── constants.js
-│   ├── App.jsx             # Main app component
-│   ├── main.jsx            # Entry point
-│   └── index.css           # Global styles
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-└── postcss.config.js
+# Open http://localhost:3000
 ```
 
-## 🎨 Features
+### Production Build
+```bash
+# Build for production
+npm run build
 
-### Authentication
-- **Citizen**: Mobile + OTP authentication
-- **Officer**: Officer ID + Password
-- **Admin**: Email + Password
-- JWT token management
-- Automatic token refresh
+# Preview production build
+npm run preview
 
-### Role-Based Access
-- Protected routes with role guards
-- Automatic redirects based on user role
-- Role-specific dashboards
+# Verify build is ready
+npm run deploy:verify
+```
 
-### Language Support
-- English (EN)
-- Hindi (HI)
-- Seamless language switching
-- JSON-based translations
+## 📋 Environment Configuration
 
-### File Upload
-- Multi-file upload support
-- Image preview
-- File type validation
-- Size limits (10MB per file, 5 files max)
+### Development
+- Automatically uses `http://localhost:5001/api`
+- Hot reload enabled
+- Debug logging active
 
-### Kiosk-Optimized UI
-- Large, touch-friendly buttons
-- High contrast design
-- Minimal text
-- Responsive layout
+### Production (Netlify)
+Set these environment variables in Netlify:
+```env
+VITE_API_BASE_URL=https://your-backend.vercel.app/api
+VITE_APP_ENV=production
+```
 
-## 🔐 User Roles
+## 🏗️ Architecture
 
-### PUBLIC (Citizen)
-- Register/Login via mobile + OTP
-- Create complaints with documents
-- Track complaint status
-- Download receipts
-- View own complaints only
+### Tech Stack
+- **React 18** - Modern React with hooks
+- **Vite** - Fast build tool and dev server
+- **React Router** - Client-side routing
+- **Tailwind CSS** - Utility-first styling
+- **Axios** - HTTP client with interceptors
+- **Lucide React** - Modern icon library
 
-### OFFICER
-- Login via Officer ID + Password
-- View complaints from assigned sub-department only
-- Update complaint status
-- Add remarks
-- Assign complaints to themselves
+### Key Features
+- **Multi-language Support** - Hindi/English
+- **Responsive Design** - Mobile-first approach
+- **Role-based Access** - Citizen, Officer, Admin interfaces
+- **Environment Aware** - Automatic dev/prod configuration
+- **PWA Ready** - Progressive Web App capabilities
 
-### ADMIN
-- Login via Email + Password
-- Full system access
-- Manage departments
-- Manage sub-departments
-- Manage officers
-- View all complaints
+## 🎯 User Interfaces
 
-## 📱 Pages
+### 👥 Citizens
+- **Login**: Mobile number + OTP
+- **Dashboard**: Complaint overview and quick actions
+- **New Complaint**: Submit complaints with file uploads
+- **Track Complaint**: Real-time status tracking
 
-### Public Pages
-- `/` - Landing page with role selection
+### 👮 Officers
+- **Login**: Officer ID + Password
+- **Dashboard**: Assigned complaints management
+- **Complaint Details**: Update status and add remarks
 
-### Citizen Pages
-- `/citizen/login` - Login/Register with OTP
-- `/citizen/dashboard` - Citizen dashboard
-- `/citizen/new-complaint` - Create new complaint
-- `/citizen/track-complaint` - Track complaint details
+### 🏛️ Administrators
+- **Login**: Email + Password
+- **Dashboard**: System overview and statistics
+- **Department Management**: Create and manage departments
+- **Officer Management**: Create, transfer, and manage officers
 
-### Officer Pages
-- `/officer/login` - Officer login
-- `/officer/dashboard` - Officer dashboard
+## 📱 Pages Structure
 
-### Admin Pages
-- `/admin/login` - Admin login
-- `/admin/dashboard` - Admin dashboard
-- `/admin/departments` - Manage departments
-- `/admin/subdepartments` - Manage sub-departments
-- `/admin/officers` - Manage officers
+```
+src/
+├── pages/
+│   ├── Landing.jsx              # Home page
+│   ├── citizen/
+│   │   ├── CitizenLogin.jsx     # OTP-based login
+│   │   ├── CitizenDashboard.jsx # Complaint overview
+│   │   ├── NewComplaint.jsx     # Submit new complaint
+│   │   └── TrackComplaint.jsx   # Track complaint status
+│   ├── officer/
+│   │   ├── OfficerLogin.jsx     # Officer authentication
+│   │   └── OfficerDashboard.jsx # Manage assigned complaints
+│   └── admin/
+│       ├── AdminLogin.jsx       # Admin authentication
+│       ├── AdminDashboard.jsx   # System overview
+│       ├── AdminDepartments.jsx # Department management
+│       ├── AdminSubDepartments.jsx # Sub-department management
+│       └── AdminOfficers.jsx    # Officer management
+```
 
-## 🛠️ Technologies
+## 🔧 Configuration Files
 
-- **React 18** - UI library
-- **Vite** - Build tool
-- **React Router DOM** - Routing
-- **Tailwind CSS** - Styling
-- **Axios** - HTTP client
-- **JWT Decode** - Token decoding
+### Netlify Configuration (`netlify.toml`)
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
 
-## 📝 Development Notes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
 
-### API Integration
-- All API calls are made through service files in `src/services/`
-- Axios instance configured with interceptors for authentication
-- Base URL configurable via environment variables
+### Vite Configuration (`vite.config.js`)
+- Development proxy to backend
+- Production build optimization
+- Code splitting and chunk optimization
+- Environment-aware configuration
 
-### State Management
-- React Context for global state (Auth, Language)
-- Local state for component-specific data
-- No external state management library required
-
-### Styling
-- Tailwind CSS utility classes
-- Custom kiosk-mode styles in `index.css`
-- Responsive design with mobile-first approach
-
-### Language Switching
-- Context-based language management
-- JSON translation files
-- No page reload required
+### Environment Files
+- `.env.local` - Local development
+- `.env` - Remote development/testing
+- `.env.production` - Production template
 
 ## 🚀 Deployment
 
-1. Build the project:
+### Netlify (Recommended)
+1. **Connect Repository**
    ```bash
-   npm run build
+   # Push to GitHub
+   git push origin main
    ```
 
-2. The `dist` folder contains the production build
+2. **Configure Netlify**
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+   - Node version: `18`
 
-3. Deploy `dist` folder to your hosting service:
-   - Netlify
-   - Vercel
-   - AWS S3 + CloudFront
-   - Any static hosting service
+3. **Set Environment Variables**
+   ```env
+   VITE_API_BASE_URL=https://your-backend.vercel.app/api
+   VITE_APP_ENV=production
+   ```
 
-4. Configure environment variables in your hosting platform
+4. **Deploy**
+   - Automatic deployment on git push
+   - Manual deployment via Netlify CLI
 
-## 🔧 Configuration
+### Manual Deployment
+```bash
+# Prepare deployment
+npm run deploy:prepare
 
-### Vite Configuration
-- Proxy configured for API calls in development
-- Port: 3000 (default)
-- API proxy: `/api` → `http://localhost:5000/api`
+# Build and verify
+npm run deploy:netlify
 
-### Tailwind Configuration
-- Custom colors (primary, secondary)
-- Kiosk-specific font sizes and spacing
-- Custom utility classes
+# Deploy with Netlify CLI
+netlify deploy --prod
+```
 
-## 📚 API Integration
+## 🧪 Testing
 
-The frontend integrates with the backend API:
+### Local Testing
+```bash
+# Test development server
+npm run dev
 
-- Base URL: `http://localhost:5000/api` (development)
-- All endpoints follow REST conventions
-- JWT authentication required for protected routes
-- File uploads use `multipart/form-data`
+# Test production build
+npm run build
+npm run preview
 
-## 🐛 Troubleshooting
+# Verify build integrity
+npm run deploy:verify
+```
 
-### CORS Issues
-- Ensure backend CORS is configured correctly
-- Check `FRONTEND_URL` in backend `.env`
+### Production Testing
+- Test all user flows
+- Verify API connectivity
+- Check responsive design
+- Test authentication flows
 
-### Authentication Issues
-- Clear localStorage if token is invalid
-- Check token expiration
-- Verify JWT_SECRET matches backend
+## 🔒 Security Features
 
-### File Upload Issues
-- Check file size (max 10MB)
-- Verify file types are allowed
-- Ensure Cloudinary credentials are configured
+- **Content Security Policy** - XSS protection
+- **HTTPS Enforcement** - Secure connections only
+- **Token-based Auth** - JWT authentication
+- **Environment Isolation** - Separate dev/prod configs
+- **Input Validation** - Client-side validation
+
+## 📊 Performance
+
+### Build Optimization
+- **Code Splitting** - Vendor and route-based chunks
+- **Tree Shaking** - Remove unused code
+- **Minification** - Compressed assets
+- **Caching** - Optimized cache headers
+
+### Runtime Performance
+- **Lazy Loading** - Route-based code splitting
+- **Image Optimization** - Responsive images
+- **API Caching** - Intelligent request caching
+- **Bundle Size** - Optimized dependencies
+
+## 🌐 Multi-language Support
+
+### Supported Languages
+- **English** - Default language
+- **Hindi** - हिंदी भाषा समर्थन
+
+### Language Features
+- Dynamic language switching
+- Persistent language preference
+- RTL support ready
+- Localized date/time formats
+
+## 🎨 UI/UX Features
+
+### Design System
+- **Consistent Colors** - Government-appropriate palette
+- **Typography** - Readable fonts and sizes
+- **Spacing** - Consistent margins and padding
+- **Components** - Reusable UI components
+
+### Accessibility
+- **WCAG Compliant** - Web accessibility standards
+- **Keyboard Navigation** - Full keyboard support
+- **Screen Reader** - ARIA labels and descriptions
+- **High Contrast** - Accessible color combinations
+
+## 📱 Mobile Experience
+
+### Responsive Design
+- **Mobile First** - Optimized for mobile devices
+- **Touch Friendly** - Large touch targets
+- **Fast Loading** - Optimized for mobile networks
+- **Offline Ready** - PWA capabilities
+
+### PWA Features
+- **App Manifest** - Install as native app
+- **Service Worker** - Offline functionality
+- **Push Notifications** - Real-time updates
+- **App Icons** - Native app experience
+
+## 🛠️ Development
+
+### Prerequisites
+- Node.js 18+
+- npm 8+
+- Modern browser
+
+### Setup
+```bash
+# Clone repository
+git clone <repo-url>
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development
+npm run dev
+```
+
+### Available Scripts
+```bash
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run deploy:prepare   # Prepare for deployment
+npm run deploy:verify    # Verify build integrity
+npm run deploy:netlify   # Build and verify for Netlify
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
 ## 📄 License
 
-ISC
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Email: support@suvidha2026.gov.in
+- Documentation: [Deployment Guide](DEPLOYMENT.md)
 
 ---
 
-**Built for C-DAC Hackathon 2026**
+**Built with ❤️ for Digital India Initiative**
+
+[![Made in India](https://img.shields.io/badge/Made%20in-India-orange?style=for-the-badge)](https://en.wikipedia.org/wiki/India)
+[![Digital India](https://img.shields.io/badge/Digital-India-green?style=for-the-badge)](https://digitalindia.gov.in/)
