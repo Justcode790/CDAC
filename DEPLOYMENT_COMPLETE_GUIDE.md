@@ -246,6 +246,27 @@ After running `npm run build:netlify`:
 Dist folder path: /path/to/frontend/dist
 ```
 
+## 🚨 Production CORS Fix
+
+If you're getting CORS errors after deploying to Netlify + Vercel:
+
+### Quick Fix
+```bash
+# Get your Netlify URL from dashboard, then run:
+node scripts/fix-production-cors.js https://your-app.netlify.app
+```
+
+### Manual Fix
+1. **Update Vercel Environment Variables**:
+   - `FRONTEND_URL=https://your-app.netlify.app`
+   - `NODE_ENV=production`
+
+2. **Redeploy backend to Vercel**
+
+3. **Test the fix**
+
+For detailed instructions, see `PRODUCTION_CORS_FIX.md`
+
 ## 🌐 Backend CORS Configuration
 
 Ensure your backend includes your Netlify domain:
