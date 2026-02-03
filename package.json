@@ -10,6 +10,9 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
+    "dev:both": "node scripts/start-dev.js",
+    "dev:backend": "nodemon backend/server.js",
+    "dev:frontend": "cd frontend && npm run dev",
     "build": "echo 'No build step required for Node.js backend'",
     "seed": "node backend/scripts/seedDemoData.js",
     "clear-db": "node backend/scripts/clearDatabase.js",

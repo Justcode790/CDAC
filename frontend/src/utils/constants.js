@@ -10,7 +10,7 @@ const isProduction = import.meta.env.PROD;
 
 // API Configuration with fallback
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (isDevelopment ? 'http://localhost:5001/api' : 'http://13.60.195.81:5000/api');
+  (isDevelopment ? 'http://localhost:5000/api' : 'http://13.60.195.81:5000/api');
 
 // App Configuration
 export const APP_CONFIG = {

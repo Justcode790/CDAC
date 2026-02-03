@@ -11,13 +11,25 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "netlify-build": "vite build",
     "serve": "vite preview --port 3000",
     "lint": "echo 'Linting completed'",
     "test": "echo 'No tests specified'",
+    
+    "setup": "node scripts/quick-setup.js",
+    
+    "build:netlify": "node scripts/build-for-netlify.js",
+    "build:production": "vite build --mode production",
+    "build:local": "vite build --mode development",
+    
+    "env:list": "node scripts/switch-env.js list",
+    "env:switch": "node scripts/switch-env.js switch",
+    "env:local": "node scripts/switch-env.js switch local",
+    "env:remote": "node scripts/switch-env.js switch remote",
+    "env:production": "node scripts/switch-env.js switch production",
+    
     "deploy:prepare": "node scripts/deploy.js",
     "deploy:verify": "node scripts/verify-build.js",
-    "deploy:netlify": "npm run build && npm run deploy:verify"
+    "deploy:manual": "npm run build:netlify"
   },
   "dependencies": {
     "axios": "^1.6.2",

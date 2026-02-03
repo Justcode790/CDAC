@@ -51,7 +51,10 @@ const corsOptions = {
     'Accept',
     'Origin',
     'Access-Control-Request-Method',
-    'Access-Control-Request-Headers'
+    'Access-Control-Request-Headers',
+    // Custom headers from frontend
+    'X-Client-Environment',
+    'X-Client-Version'
   ],
   exposedHeaders: ['Authorization'],
   optionsSuccessStatus: 200,
@@ -60,13 +63,24 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Handle preflight requests
-app.options('*', cors());
+// Handle preflight requests explicitly
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.get('origin'));
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,PATCH');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,X-Client-Environment,X-Client-Version');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Max-Age', '86400');
+  res.status(200).end();
+});
 
 // CORS debugging middleware (development only)
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
     console.log(`CORS: ${req.method} ${req.path} from origin: ${req.get('origin')}`);
+    if (req.method === 'OPTIONS') {
+      console.log('CORS: Preflight request detected');
+      console.log('CORS: Request headers:', req.get('Access-Control-Request-Headers'));
+    }
     next();
   });
 }
@@ -101,6 +115,21 @@ app.get('/health', (req, res) => {
     status: 'OK',
     message: 'SUVIDHA 2026 API is running',
     timestamp: new Date().toISOString()
+  });
+});
+
+// API Health Check Route
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: 'OK',
+    message: 'SUVIDHA 2026 API is running',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString(),
+    cors: {
+      origin: req.get('origin'),
+      userAgent: req.get('user-agent')
+    }
   });
 });
 
