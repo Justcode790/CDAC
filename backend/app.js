@@ -27,51 +27,31 @@ app.use(helmet()); // Sets various HTTP headers for security
 
 // CORS Configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? [
-        process.env.FRONTEND_URL,
-        process.env.FRONTEND_URL_WWW,
-        // Add your production domains here
-        'https://your-app.netlify.app',
-        'https://your-domain.com',
-        'https://www.your-domain.com'
-      ].filter(Boolean) // Remove undefined values
-    : [
-        'http://localhost:3000',
-        'http://localhost:3001',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:3001'
-      ],
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+      process.env.FRONTEND_URL_WWW,
+      'http://localhost:3000',
+      'http://127.0.0.1:3000'
+    ].filter(Boolean);
+
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
-    'X-Requested-With',
-    'Accept',
-    'Origin',
-    'Access-Control-Request-Method',
-    'Access-Control-Request-Headers',
-    // Custom headers from frontend
-    'X-Client-Environment',
-    'X-Client-Version'
-  ],
-  exposedHeaders: ['Authorization'],
-  optionsSuccessStatus: 200,
-  maxAge: 86400 // 24 hours
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
 
-// Handle preflight requests explicitly
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', req.get('origin'));
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,PATCH');
-  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,X-Client-Environment,X-Client-Version');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Max-Age', '86400');
-  res.status(200).end();
-});
+
+
 
 // CORS debugging middleware (development only)
 if (process.env.NODE_ENV === 'development') {
