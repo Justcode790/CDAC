@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "சுவிதாவிற்கு வரவேற்கிறோம்",
+    "loading": "ஏற்றுகிறது...",
+    "submit": "சமர்ப்பிக்கவும்",
+    "cancel": "ரத்து செய்",
+    "back": "பின்னால்",
+    "logout": "வெளியேறு",
+    "save": "சேமி",
+    "delete": "நீக்கு",
+    "edit": "திருத்து",
+    "search": "தேடு",
+    "filter": "வடிகட்டி",
+    "close": "மூடு"
+  },
+  "landing": {
+    "title": "சுவிதா 2026க்கு வரவேற்கிறோம்",
+    "subtitle": "ஸ்மார்ட் அர்பன் விர்ச்சுவல் இன்டராக்டிவ் டிஜிட்டல் ஹெல்ப்டெஸ்க் அசிஸ்டன்ட்",
+    "citizenServices": "குடிமக்கள் சேவைகள்",
+    "departmentLogin": "துறை உள்நுழைவு",
+    "adminLogin": "நிர்வாக உள்நுழைவு"
+  },
+  "auth": {
+    "login": "உள்நுழைவு",
+    "register": "பதிவு",
+    "mobileNumber": "மொபைல் எண்",
+    "otp": "OTP",
+    "verifyOTP": "OTP சரிபார்க்கவும்",
+    "resendOTP": "OTP மீண்டும் அனுப்பவும்",
+    "officerId": "அதிகாரி ஐடி",
+    "password": "கடவுச்சொல்",
+    "email": "மின்னஞ்சல்",
+    "name": "பெயர்",
+    "address": "முகவரி",
+    "enterMobile": "உங்கள் மொபைல் எண்ணை உள்ளிடவும்",
+    "enterOTP": "உங்கள் மொபைலுக்கு அனுப்பப்பட்ட OTP ஐ உள்ளிடவும்",
+    "enterOfficerId": "உங்கள் அதிகாரி ஐடியை உள்ளிடவும்",
+    "enterPassword": "உங்கள் கடவுச்சொல்லை உள்ளிடவும்",
+    "enterEmail": "உங்கள் மின்னஞ்சலை உள்ளிடவும்",
+    "loginSuccess": "உள்நுழைவு வெற்றிகரமாக",
+    "registerSuccess": "பதிவு வெற்றிகரமாக"
+  },
+  "citizen": {
+    "dashboard": "டாஷ்போர்டு",
+    "newComplaint": "புதிய புகார்",
+    "trackComplaint": "புகாரைக் கண்காணிக்கவும்",
+    "myComplaints": "எனது புகார்கள்",
+    "complaintNumber": "புகார் எண்",
+    "status": "நிலை",
+    "createdAt": "உருவாக்கப்பட்டது",
+    "viewDetails": "விவரங்களைக் காண்க",
+    "downloadReceipt": "ரசீதைப் பதிவிறக்கவும்"
+  },
+  "complaint": {
+    "title": "தலைப்பு",
+    "description": "விளக்கம்",
+    "category": "வகை",
+    "priority": "முன்னுரிமை",
+    "department": "துறை",
+    "subDepartment": "துணைத் துறை",
+    "location": "இடம்",
+    "documents": "ஆவணங்கள்",
+    "uploadDocuments": "ஆவணங்களைப் பதிவேற்றவும்",
+    "createComplaint": "புகாரை உருவாக்கவும்",
+    "updateComplaint": "புகாரைப் புதுப்பிக்கவும்",
+    "addRemarks": "கருத்துகளைச் சேர்க்கவும்",
+    "remarks": "கருத்துகள்",
+    "noComplaints": "புகார்கள் எதுவும் இல்லை"
+  },
+  "officer": {
+    "dashboard": "அதிகாரி டாஷ்போர்டு",
+    "assignedComplaints": "ஒதுக்கப்பட்ட புகார்கள்",
+    "subDepartment": "துணைத் துறை",
+    "updateStatus": "நிலையைப் புதுப்பிக்கவும்"
+  },
+  "admin": {
+    "dashboard": "நிர்வாக டாஷ்போர்டு",
+    "departments": "துறைகள்",
+    "subDepartments": "துணைத் துறைகள்",
+    "officers": "அதிகாரிகள்",
+    "allComplaints": "அனைத்து புகார்கள்",
+    "createDepartment": "துறையை உருவாக்கவும்",
+    "createSubDepartment": "துணைத் துறையை உருவாக்கவும்",
+    "createOfficer": "அதிகாரியை உருவாக்கவும்",
+    "assignOfficer": "அதிகாரியை ஒதுக்கவும்"
+  },
+  "status": {
+    "pending": "நிலுவையில்",
+    "inProgress": "முன்னேற்றத்தில்",
+    "resolved": "தீர்க்கப்பட்டது",
+    "rejected": "நிராகரிக்கப்பட்டது"
+  },
+  "priority": {
+    "low": "குறைவு",
+    "medium": "நடுத்தர",
+    "high": "உயர்",
+    "urgent": "அவசரம்"
+  }
+}

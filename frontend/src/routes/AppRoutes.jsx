@@ -16,11 +16,13 @@ import CitizenLogin from '../pages/citizen/CitizenLogin';
 import CitizenRegister from '../pages/citizen/CitizenRegister';
 import CitizenDashboard from '../pages/citizen/CitizenDashboard';
 import NewComplaint from '../pages/citizen/NewComplaint';
+import NewServiceRequest from '../pages/citizen/NewServiceRequest';
 import TrackComplaint from '../pages/citizen/TrackComplaint';
 
 // Officer Pages (will be created)
 import OfficerLogin from '../pages/officer/OfficerLogin';
 import OfficerDashboard from '../pages/officer/OfficerDashboard';
+import ComplaintDetails from '../pages/officer/ComplaintDetails';
 
 // Admin Pages (will be created)
 import AdminLogin from '../pages/admin/AdminLogin';
@@ -62,6 +64,14 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/citizen/new-service-request"
+        element={
+          <ProtectedRoute allowedRoles={[ROLES.PUBLIC]}>
+            <NewServiceRequest />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Officer Routes */}
       <Route path={ROUTES.OFFICER_LOGIN} element={<OfficerLogin />} />
@@ -70,6 +80,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={[ROLES.OFFICER]}>
             <OfficerDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/officer/complaint/:id"
+        element={
+          <ProtectedRoute allowedRoles={[ROLES.OFFICER]}>
+            <ComplaintDetails />
           </ProtectedRoute>
         }
       />

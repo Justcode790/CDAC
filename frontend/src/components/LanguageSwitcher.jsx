@@ -1,45 +1,61 @@
 import { useLanguage } from '../context/LanguageContext';
-import { LANGUAGES } from '../utils/constants';
-import { Globe } from 'lucide-react';
+import { LANGUAGES, LANGUAGE_NAMES } from '../utils/constants';
+import { Globe, ChevronDown } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 
 const LanguageSwitcher = () => {
   const { language, changeLanguage } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLanguageChange = (lang) => {
+    changeLanguage(lang);
+    setIsOpen(false);
+  };
 
   return (
-    <div className="flex items-center p-1 bg-slate-200/60 backdrop-blur-xl rounded-2xl border border-white/20 shadow-inner relative overflow-hidden">
-      {/* Icon Indicator */}
-      <div className="pl-3 pr-1 text-slate-500 z-10">
+    <div className="relative" ref={dropdownRef}>
+      {/* Language Selector Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-xl border border-white/20 shadow-inner transition-all"
+      >
         <Globe size={18} strokeWidth={2.5} />
-      </div>
+        <span className="font-bold text-sm">{LANGUAGE_NAMES[language]}</span>
+        <ChevronDown size={16} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
 
-      <div className="flex relative items-center">
-        {/* Animated Sliding Background */}
-        <div 
-          className={`absolute h-full w-1/2 bg-white rounded-xl shadow-md transition-all duration-300 ease-out border border-black/5 ${
-            language === LANGUAGES.HI ? 'translate-x-full' : 'translate-x-0'
-          }`}
-        />
-
-        {/* English Button */}
-        <button
-          onClick={() => changeLanguage(LANGUAGES.EN)}
-          className={`relative z-10 px-6 py-2 rounded-xl font-black text-[11px] uppercase tracking-wider transition-colors duration-300 w-32 ${
-            language === LANGUAGES.EN ? 'text-primary-600' : 'text-slate-500 hover:text-slate-800'
-          }`}
-        >
-          English
-        </button>
-
-        {/* Hindi Button */}
-        <button
-          onClick={() => changeLanguage(LANGUAGES.HI)}
-          className={`relative z-10 px-6 py-2 rounded-xl font-bold text-lg transition-colors duration-300 w-32 ${
-            language === LANGUAGES.HI ? 'text-primary-600' : 'text-slate-500 hover:text-slate-800'
-          }`}
-        >
-          हिंदी
-        </button>
-      </div>
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="p-2 max-h-96 overflow-y-auto">
+            {Object.entries(LANGUAGE_NAMES).map(([code, name]) => (
+              <button
+                key={code}
+                onClick={() => handleLanguageChange(code)}
+                className={`w-full text-left px-4 py-3 rounded-xl transition-all ${
+                  language === code
+                    ? 'bg-primary-600 text-white font-bold'
+                    : 'text-slate-700 hover:bg-slate-100 font-medium'
+                }`}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

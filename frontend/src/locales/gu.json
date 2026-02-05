@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "સુવિધામાં આપનું સ્વાગત છે",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "submit": "સબમિટ કરો",
+    "cancel": "રદ કરો",
+    "back": "પાછળ",
+    "logout": "લૉગઆઉટ",
+    "save": "સાચવો",
+    "delete": "કાઢી નાખો",
+    "edit": "સંપાદિત કરો",
+    "search": "શોધો",
+    "filter": "ફિલ્ટર",
+    "close": "બંધ કરો"
+  },
+  "landing": {
+    "title": "સુવિધા 2026માં આપનું સ્વાગત છે",
+    "subtitle": "સ્માર્ટ અર્બન વર્ચ્યુઅલ ઇન્ટરેક્ટિવ ડિજિટલ હેલ્પડેસ્ક આસિસ્ટન્ટ",
+    "citizenServices": "નાગરિક સેવાઓ",
+    "departmentLogin": "વિભાગ લૉગિન",
+    "adminLogin": "એડમિન લૉગિન"
+  },
+  "auth": {
+    "login": "લૉગિન",
+    "register": "નોંધણી",
+    "mobileNumber": "મોબાઇલ નંબર",
+    "otp": "OTP",
+    "verifyOTP": "OTP ચકાસો",
+    "resendOTP": "OTP ફરીથી મોકલો",
+    "officerId": "અધિકારી આઈડી",
+    "password": "પાસવર્ડ",
+    "email": "ઈમેલ",
+    "name": "નામ",
+    "address": "સરનામું",
+    "enterMobile": "તમારો મોબાઇલ નંબર દાખલ કરો",
+    "enterOTP": "તમારા મોબાઇલ પર મોકલેલો OTP દાખલ કરો",
+    "enterOfficerId": "તમારી અધિકારી આઈડી દાખલ કરો",
+    "enterPassword": "તમારો પાસવર્ડ દાખલ કરો",
+    "enterEmail": "તમારું ઈમેલ દાખલ કરો",
+    "loginSuccess": "લૉગિન સફળ",
+    "registerSuccess": "નોંધણી સફળ"
+  },
+  "citizen": {
+    "dashboard": "ડેશબોર્ડ",
+    "newComplaint": "નવી ફરિયાદ",
+    "trackComplaint": "ફરિયાદ ટ્રેક કરો",
+    "myComplaints": "મારી ફરિયાદો",
+    "complaintNumber": "ફરિયાદ નંબર",
+    "status": "સ્થિતિ",
+    "createdAt": "બનાવ્યું",
+    "viewDetails": "વિગતો જુઓ",
+    "downloadReceipt": "રસીદ ડાઉનલોડ કરો"
+  },
+  "complaint": {
+    "title": "શીર્ષક",
+    "description": "વર્ણન",
+    "category": "શ્રેણી",
+    "priority": "પ્રાથમિકતા",
+    "department": "વિભાગ",
+    "subDepartment": "પેટા-વિભાગ",
+    "location": "સ્થાન",
+    "documents": "દસ્તાવેજો",
+    "uploadDocuments": "દસ્તાવેજો અપલોડ કરો",
+    "createComplaint": "ફરિયાદ બનાવો",
+    "updateComplaint": "ફરિયાદ અપડેટ કરો",
+    "addRemarks": "ટિપ્પણીઓ ઉમેરો",
+    "remarks": "ટિપ્પણીઓ",
+    "noComplaints": "કોઈ ફરિયાદો મળી નથી"
+  },
+  "officer": {
+    "dashboard": "અધિકારી ડેશબોર્ડ",
+    "assignedComplaints": "સોંપેલી ફરિયાદો",
+    "subDepartment": "પેટા-વિભાગ",
+    "updateStatus": "સ્થિતિ અપડેટ કરો"
+  },
+  "admin": {
+    "dashboard": "એડમિન ડેશબોર્ડ",
+    "departments": "વિભાગો",
+    "subDepartments": "પેટા-વિભાગો",
+    "officers": "અધિકારીઓ",
+    "allComplaints": "બધી ફરિયાદો",
+    "createDepartment": "વિભાગ બનાવો",
+    "createSubDepartment": "પેટા-વિભાગ બનાવો",
+    "createOfficer": "અધિકારી બનાવો",
+    "assignOfficer": "અધિકારી સોંપો"
+  },
+  "status": {
+    "pending": "બાકી",
+    "inProgress": "પ્રગતિમાં",
+    "resolved": "ઉકેલાઈ",
+    "rejected": "નકારાઈ"
+  },
+  "priority": {
+    "low": "ઓછું",
+    "medium": "મધ્યમ",
+    "high": "ઊંચું",
+    "urgent": "તાત્કાલિક"
+  }
+}

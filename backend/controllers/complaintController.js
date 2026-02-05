@@ -473,13 +473,13 @@ const addDocuments = async (req, res) => {
 
 /**
  * @route   GET /api/complaints/:id/receipt
- * @desc    Download complaint receipt
+ * @desc    Download complaint receipt as PDF
  * @access  Private (PUBLIC/Citizen - own complaints only)
  */
 const downloadReceipt = async (req, res) => {
   try {
     const complaint = await Complaint.findById(req.params.id)
-      .populate('citizen', 'name mobileNumber')
+      .populate('citizen', 'name mobileNumber email')
       .populate('department', 'name code')
       .populate('subDepartment', 'name code');
 
@@ -498,22 +498,18 @@ const downloadReceipt = async (req, res) => {
       });
     }
 
-    // Return receipt data (frontend will format as PDF)
-    res.json({
-      success: true,
-      receipt: {
-        complaintNumber: complaint.complaintNumber,
-        citizenName: complaint.citizen.name,
-        citizenMobile: complaint.citizen.mobileNumber,
-        title: complaint.title,
-        department: complaint.department.name,
-        subDepartment: complaint.subDepartment.name,
-        status: complaint.status,
-        priority: complaint.priority,
-        createdAt: complaint.createdAt,
-        category: complaint.category
-      }
-    });
+    // Generate PDF receipt
+    const { generateComplaintReceipt } = require('../services/receiptService.js');
+    const pdfBuffer = await generateComplaintReceipt(complaint, complaint.citizen);
+
+    // Set response headers for PDF download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=SUVIDHA_Receipt_${complaint.complaintNumber}.pdf`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+
+    // Send PDF
+    res.send(pdfBuffer);
+
   } catch (error) {
     console.error('Download receipt error:', error);
     res.status(500).json({

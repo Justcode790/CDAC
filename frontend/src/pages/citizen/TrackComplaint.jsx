@@ -108,10 +108,11 @@ const TrackComplaint = () => {
 
   const handleDownloadReceipt = async () => {
     try {
-      const response = await downloadReceipt(complaint._id);
-      alert(`Receipt generated for ${response.receipt.complaintNumber}`);
+      await downloadReceipt(complaint._id);
+      alert('Receipt downloaded successfully!');
     } catch (err) {
-      alert('Failed to download receipt');
+      console.error('Download error:', err);
+      alert('Failed to download receipt. Please try again.');
     }
   };
 

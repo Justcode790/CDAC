@@ -46,8 +46,15 @@ const uploadToCloudinary = async (file, options = {}) => {
       ...otherOptions
     };
 
+    // If file is a Buffer, convert to base64 data URI
+    let fileToUpload = file;
+    if (Buffer.isBuffer(file)) {
+      const base64 = file.toString('base64');
+      fileToUpload = `data:application/octet-stream;base64,${base64}`;
+    }
+
     // Upload file
-    const result = await cloudinary.uploader.upload(file, uploadOptions);
+    const result = await cloudinary.uploader.upload(fileToUpload, uploadOptions);
 
     return {
       success: true,

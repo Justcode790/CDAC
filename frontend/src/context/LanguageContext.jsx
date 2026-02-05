@@ -9,12 +9,28 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { LANGUAGES, STORAGE_KEYS } from '../utils/constants';
 import enTranslations from '../locales/en.json';
 import hiTranslations from '../locales/hi.json';
+import bnTranslations from '../locales/bn.json';
+import teTranslations from '../locales/te.json';
+import mrTranslations from '../locales/mr.json';
+import taTranslations from '../locales/ta.json';
+import guTranslations from '../locales/gu.json';
+import knTranslations from '../locales/kn.json';
+import mlTranslations from '../locales/ml.json';
+import paTranslations from '../locales/pa.json';
 
 const LanguageContext = createContext(null);
 
-const translations = {
+const translationsMap = {
   [LANGUAGES.EN]: enTranslations,
-  [LANGUAGES.HI]: hiTranslations
+  [LANGUAGES.HI]: hiTranslations,
+  [LANGUAGES.BN]: bnTranslations,
+  [LANGUAGES.TE]: teTranslations,
+  [LANGUAGES.MR]: mrTranslations,
+  [LANGUAGES.TA]: taTranslations,
+  [LANGUAGES.GU]: guTranslations,
+  [LANGUAGES.KN]: knTranslations,
+  [LANGUAGES.ML]: mlTranslations,
+  [LANGUAGES.PA]: paTranslations
 };
 
 export const LanguageProvider = ({ children }) => {
@@ -24,20 +40,18 @@ export const LanguageProvider = ({ children }) => {
   });
 
   const [translations, setTranslations] = useState(
-    language === LANGUAGES.HI ? hiTranslations : enTranslations
+    translationsMap[language] || enTranslations
   );
 
   useEffect(() => {
     // Update translations when language changes
-    setTranslations(
-      language === LANGUAGES.HI ? hiTranslations : enTranslations
-    );
+    setTranslations(translationsMap[language] || enTranslations);
     // Save to localStorage
     localStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
   }, [language]);
 
   const changeLanguage = (lang) => {
-    if (lang === LANGUAGES.EN || lang === LANGUAGES.HI) {
+    if (Object.values(LANGUAGES).includes(lang)) {
       setLanguage(lang);
     }
   };

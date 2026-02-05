@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "ಸುವಿಧಾಗೆ ಸ್ವಾಗತ",
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    "submit": "ಸಲ್ಲಿಸಿ",
+    "cancel": "ರದ್ದುಮಾಡಿ",
+    "back": "ಹಿಂದೆ",
+    "logout": "ಲಾಗ್ಔಟ್",
+    "save": "ಉಳಿಸಿ",
+    "delete": "ಅಳಿಸಿ",
+    "edit": "ಸಂಪಾದಿಸಿ",
+    "search": "ಹುಡುಕಿ",
+    "filter": "ಫಿಲ್ಟರ್",
+    "close": "ಮುಚ್ಚಿ"
+  },
+  "landing": {
+    "title": "ಸುವಿಧಾ 2026ಗೆ ಸ್ವಾಗತ",
+    "subtitle": "ಸ್ಮಾರ್ಟ್ ಅರ್ಬನ್ ವರ್ಚುವಲ್ ಇಂಟರಾಕ್ಟಿವ್ ಡಿಜಿಟಲ್ ಹೆಲ್ಪ್‌ಡೆಸ್ಕ್ ಅಸಿಸ್ಟೆಂಟ್",
+    "citizenServices": "ನಾಗರಿಕ ಸೇವೆಗಳು",
+    "departmentLogin": "ವಿಭಾಗ ಲಾಗಿನ್",
+    "adminLogin": "ನಿರ್ವಾಹಕ ಲಾಗಿನ್"
+  },
+  "auth": {
+    "login": "ಲಾಗಿನ್",
+    "register": "ನೋಂದಣಿ",
+    "mobileNumber": "ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+    "otp": "OTP",
+    "verifyOTP": "OTP ಪರಿಶೀಲಿಸಿ",
+    "resendOTP": "OTP ಮರುಕಳುಹಿಸಿ",
+    "officerId": "ಅಧಿಕಾರಿ ಐಡಿ",
+    "password": "ಪಾಸ್‌ವರ್ಡ್",
+    "email": "ಇಮೇಲ್",
+    "name": "ಹೆಸರು",
+    "address": "ವಿಳಾಸ",
+    "enterMobile": "ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+    "enterOTP": "ನಿಮ್ಮ ಮೊಬೈಲ್‌ಗೆ ಕಳುಹಿಸಿದ OTP ನಮೂದಿಸಿ",
+    "enterOfficerId": "ನಿಮ್ಮ ಅಧಿಕಾರಿ ಐಡಿ ನಮೂದಿಸಿ",
+    "enterPassword": "ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ",
+    "enterEmail": "ನಿಮ್ಮ ಇಮೇಲ್ ನಮೂದಿಸಿ",
+    "loginSuccess": "ಲಾಗಿನ್ ಯಶಸ್ವಿ",
+    "registerSuccess": "ನೋಂದಣಿ ಯಶಸ್ವಿ"
+  },
+  "citizen": {
+    "dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "newComplaint": "ಹೊಸ ದೂರು",
+    "trackComplaint": "ದೂರು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ",
+    "myComplaints": "ನನ್ನ ದೂರುಗಳು",
+    "complaintNumber": "ದೂರು ಸಂಖ್ಯೆ",
+    "status": "ಸ್ಥಿತಿ",
+    "createdAt": "ರಚಿಸಲಾಗಿದೆ",
+    "viewDetails": "ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ",
+    "downloadReceipt": "ರಸೀದಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
+  },
+  "complaint": {
+    "title": "ಶೀರ್ಷಿಕೆ",
+    "description": "ವಿವರಣೆ",
+    "category": "ವರ್ಗ",
+    "priority": "ಆದ್ಯತೆ",
+    "department": "ವಿಭಾಗ",
+    "subDepartment": "ಉಪ-ವಿಭಾಗ",
+    "location": "ಸ್ಥಳ",
+    "documents": "ದಾಖಲೆಗಳು",
+    "uploadDocuments": "ದಾಖಲೆಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    "createComplaint": "ದೂರು ರಚಿಸಿ",
+    "updateComplaint": "ದೂರು ನವೀಕರಿಸಿ",
+    "addRemarks": "ಟಿಪ್ಪಣಿಗಳನ್ನು ಸೇರಿಸಿ",
+    "remarks": "ಟಿಪ್ಪಣಿಗಳು",
+    "noComplaints": "ಯಾವುದೇ ದೂರುಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
+  },
+  "officer": {
+    "dashboard": "ಅಧಿಕಾರಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "assignedComplaints": "ನಿಯೋಜಿತ ದೂರುಗಳು",
+    "subDepartment": "ಉಪ-ವಿಭಾಗ",
+    "updateStatus": "ಸ್ಥಿತಿ ನವೀಕರಿಸಿ"
+  },
+  "admin": {
+    "dashboard": "ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "departments": "ವಿಭಾಗಗಳು",
+    "subDepartments": "ಉಪ-ವಿಭಾಗಗಳು",
+    "officers": "ಅಧಿಕಾರಿಗಳು",
+    "allComplaints": "ಎಲ್ಲಾ ದೂರುಗಳು",
+    "createDepartment": "ವಿಭಾಗ ರಚಿಸಿ",
+    "createSubDepartment": "ಉಪ-ವಿಭಾಗ ರಚಿಸಿ",
+    "createOfficer": "ಅಧಿಕಾರಿ ರಚಿಸಿ",
+    "assignOfficer": "ಅಧಿಕಾರಿ ನಿಯೋಜಿಸಿ"
+  },
+  "status": {
+    "pending": "ಬಾಕಿ",
+    "inProgress": "ಪ್ರಗತಿಯಲ್ಲಿದೆ",
+    "resolved": "ಪರಿಹರಿಸಲಾಗಿದೆ",
+    "rejected": "ತಿರಸ್ಕರಿಸಲಾಗಿದೆ"
+  },
+  "priority": {
+    "low": "ಕಡಿಮೆ",
+    "medium": "ಮಧ್ಯಮ",
+    "high": "ಹೆಚ್ಚು",
+    "urgent": "ತುರ್ತು"
+  }
+}

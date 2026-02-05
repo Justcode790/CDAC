@@ -9,16 +9,21 @@ const isDevelopment = import.meta.env.DEV;
 const isProduction = import.meta.env.PROD;
 
 // API Configuration with fallback
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (isDevelopment ? 'http://localhost:5000/api' : 'http://13.60.195.81:5000/api');
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (isDevelopment
+    ? "http://localhost:5000/api"
+    : "http://13.60.195.81:5000/api");
 
 // App Configuration
 export const APP_CONFIG = {
-  name: 'SUVIDHA 2026',
-  version: import.meta.env.VITE_APP_VERSION || '1.0.0',
-  environment: import.meta.env.VITE_APP_ENV || (isDevelopment ? 'development' : 'production'),
+  name: "SUVIDHA 2026",
+  version: import.meta.env.VITE_APP_VERSION || "1.0.0",
+  environment:
+    import.meta.env.VITE_APP_ENV ||
+    (isDevelopment ? "development" : "production"),
   isDevelopment,
-  isProduction
+  isProduction,
 };
 
 // User Roles
@@ -62,6 +67,27 @@ export const COMPLAINT_PRIORITY = {
 export const LANGUAGES = {
   EN: "en",
   HI: "hi",
+  BN: "bn", // Bengali
+  TE: "te", // Telugu
+  MR: "mr", // Marathi
+  TA: "ta", // Tamil
+  GU: "gu", // Gujarati
+  KN: "kn", // Kannada
+  ML: "ml", // Malayalam
+  PA: "pa", // Punjabi
+};
+
+export const LANGUAGE_NAMES = {
+  en: "English",
+  hi: "हिंदी",
+  bn: "বাংলা",
+  te: "తెలుగు",
+  mr: "मराठी",
+  ta: "தமிழ்",
+  gu: "ગુજરાતી",
+  kn: "ಕನ್ನಡ",
+  ml: "മലയാളം",
+  pa: "ਪੰਜਾਬੀ",
 };
 
 // Local Storage Keys
@@ -89,4 +115,73 @@ export const ROUTES = {
   ADMIN_DEPARTMENTS: "/admin/departments",
   ADMIN_SUBDEPARTMENTS: "/admin/subdepartments",
   ADMIN_OFFICERS: "/admin/officers",
+};
+
+// Service Request Types
+export const SERVICE_REQUEST_TYPES = {
+  COMPLAINT: "COMPLAINT",
+  CERTIFICATE: "CERTIFICATE",
+  LICENSE: "LICENSE",
+  PERMIT: "PERMIT",
+  RTI: "RTI"
+};
+
+// Certificate Types
+export const CERTIFICATE_TYPES = {
+  BIRTH: "BIRTH",
+  DEATH: "DEATH",
+  MARRIAGE: "MARRIAGE",
+  RESIDENCE: "RESIDENCE",
+  INCOME: "INCOME",
+  CASTE: "CASTE",
+  DOMICILE: "DOMICILE",
+  CHARACTER: "CHARACTER"
+};
+
+// License Types
+export const LICENSE_TYPES = {
+  TRADE: "TRADE",
+  SHOP_ESTABLISHMENT: "SHOP_ESTABLISHMENT",
+  FOOD: "FOOD",
+  HEALTH: "HEALTH",
+  FIRE_SAFETY: "FIRE_SAFETY",
+  BUILDING: "BUILDING",
+  TRANSPORT: "TRANSPORT",
+  PROFESSIONAL: "PROFESSIONAL"
+};
+
+// Permit Types
+export const PERMIT_TYPES = {
+  CONSTRUCTION: "CONSTRUCTION",
+  DEMOLITION: "DEMOLITION",
+  EVENT: "EVENT",
+  UTILITY: "UTILITY",
+  PARKING: "PARKING",
+  ADVERTISEMENT: "ADVERTISEMENT",
+  WATER_CONNECTION: "WATER_CONNECTION",
+  SEWAGE_CONNECTION: "SEWAGE_CONNECTION"
+};
+
+// RTI Categories
+export const RTI_CATEGORIES = {
+  GENERAL_INFORMATION: "GENERAL_INFORMATION",
+  FINANCIAL_RECORDS: "FINANCIAL_RECORDS",
+  POLICY_DOCUMENTS: "POLICY_DOCUMENTS",
+  PROJECT_STATUS: "PROJECT_STATUS",
+  TENDER_INFORMATION: "TENDER_INFORMATION",
+  EMPLOYEE_RECORDS: "EMPLOYEE_RECORDS",
+  COMPLAINT_STATUS: "COMPLAINT_STATUS",
+  OTHER: "OTHER"
+};
+
+// Service Request Status
+export const SERVICE_REQUEST_STATUS = {
+  PENDING: "PENDING",
+  UNDER_REVIEW: "UNDER_REVIEW",
+  DOCUMENTS_REQUIRED: "DOCUMENTS_REQUIRED",
+  IN_PROGRESS: "IN_PROGRESS",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  COMPLETED: "COMPLETED",
+  DELIVERED: "DELIVERED"
 };

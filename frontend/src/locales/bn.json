@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "সুবিধায় স্বাগতম",
+    "loading": "লোড হচ্ছে...",
+    "submit": "জমা দিন",
+    "cancel": "বাতিল করুন",
+    "back": "ফিরে যান",
+    "logout": "লগআউট",
+    "save": "সংরক্ষণ করুন",
+    "delete": "মুছুন",
+    "edit": "সম্পাদনা করুন",
+    "search": "অনুসন্ধান করুন",
+    "filter": "ফিল্টার",
+    "close": "বন্ধ করুন"
+  },
+  "landing": {
+    "title": "সুবিধা ২০২৬-এ স্বাগতম",
+    "subtitle": "স্মার্ট আরবান ভার্চুয়াল ইন্টারঅ্যাক্টিভ ডিজিটাল হেল্পডেস্ক অ্যাসিস্ট্যান্ট",
+    "citizenServices": "নাগরিক সেবা",
+    "departmentLogin": "বিভাগ লগইন",
+    "adminLogin": "অ্যাডমিন লগইন"
+  },
+  "auth": {
+    "login": "লগইন",
+    "register": "নিবন্ধন",
+    "mobileNumber": "মোবাইল নম্বর",
+    "otp": "OTP",
+    "verifyOTP": "OTP যাচাই করুন",
+    "resendOTP": "OTP পুনরায় পাঠান",
+    "officerId": "অফিসার আইডি",
+    "password": "পাসওয়ার্ড",
+    "email": "ইমেল",
+    "name": "নাম",
+    "address": "ঠিকানা",
+    "enterMobile": "আপনার মোবাইল নম্বর লিখুন",
+    "enterOTP": "আপনার মোবাইলে পাঠানো OTP লিখুন",
+    "enterOfficerId": "আপনার অফিসার আইডি লিখুন",
+    "enterPassword": "আপনার পাসওয়ার্ড লিখুন",
+    "enterEmail": "আপনার ইমেল লিখুন",
+    "loginSuccess": "লগইন সফল",
+    "registerSuccess": "নিবন্ধন সফল"
+  },
+  "citizen": {
+    "dashboard": "ড্যাশবোর্ড",
+    "newComplaint": "নতুন অভিযোগ",
+    "trackComplaint": "অভিযোগ ট্র্যাক করুন",
+    "myComplaints": "আমার অভিযোগ",
+    "complaintNumber": "অভিযোগ নম্বর",
+    "status": "অবস্থা",
+    "createdAt": "তৈরি হয়েছে",
+    "viewDetails": "বিস্তারিত দেখুন",
+    "downloadReceipt": "রসিদ ডাউনলোড করুন"
+  },
+  "complaint": {
+    "title": "শিরোনাম",
+    "description": "বিবরণ",
+    "category": "বিভাগ",
+    "priority": "অগ্রাধিকার",
+    "department": "বিভাগ",
+    "subDepartment": "উপ-বিভাগ",
+    "location": "অবস্থান",
+    "documents": "নথি",
+    "uploadDocuments": "নথি আপলোড করুন",
+    "createComplaint": "অভিযোগ তৈরি করুন",
+    "updateComplaint": "অভিযোগ আপডেট করুন",
+    "addRemarks": "মন্তব্য যোগ করুন",
+    "remarks": "মন্তব্য",
+    "noComplaints": "কোনো অভিযোগ পাওয়া যায়নি"
+  },
+  "officer": {
+    "dashboard": "অফিসার ড্যাশবোর্ড",
+    "assignedComplaints": "নির্ধারিত অভিযোগ",
+    "subDepartment": "উপ-বিভাগ",
+    "updateStatus": "অবস্থা আপডেট করুন"
+  },
+  "admin": {
+    "dashboard": "অ্যাডমিন ড্যাশবোর্ড",
+    "departments": "বিভাগসমূহ",
+    "subDepartments": "উপ-বিভাগসমূহ",
+    "officers": "অফিসারগণ",
+    "allComplaints": "সমস্ত অভিযোগ",
+    "createDepartment": "বিভাগ তৈরি করুন",
+    "createSubDepartment": "উপ-বিভাগ তৈরি করুন",
+    "createOfficer": "অফিসার তৈরি করুন",
+    "assignOfficer": "অফিসার নির্ধারণ করুন"
+  },
+  "status": {
+    "pending": "মুলতুবি",
+    "inProgress": "চলমান",
+    "resolved": "সমাধান হয়েছে",
+    "rejected": "প্রত্যাখ্যাত"
+  },
+  "priority": {
+    "low": "কম",
+    "medium": "মাঝারি",
+    "high": "উচ্চ",
+    "urgent": "জরুরি"
+  }
+}

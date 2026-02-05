@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "ਸੁਵਿਧਾ ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ",
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+    "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "back": "ਵਾਪਸ",
+    "logout": "ਲਾਗਆਉਟ",
+    "save": "ਸੁਰੱਖਿਅਤ ਕਰੋ",
+    "delete": "ਮਿਟਾਓ",
+    "edit": "ਸੰਪਾਦਿਤ ਕਰੋ",
+    "search": "ਖੋਜੋ",
+    "filter": "ਫਿਲਟਰ",
+    "close": "ਬੰਦ ਕਰੋ"
+  },
+  "landing": {
+    "title": "ਸੁਵਿਧਾ 2026 ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ",
+    "subtitle": "ਸਮਾਰਟ ਅਰਬਨ ਵਰਚੁਅਲ ਇੰਟਰਐਕਟਿਵ ਡਿਜੀਟਲ ਹੈਲਪਡੈਸਕ ਅਸਿਸਟੈਂਟ",
+    "citizenServices": "ਨਾਗਰਿਕ ਸੇਵਾਵਾਂ",
+    "departmentLogin": "ਵਿਭਾਗ ਲਾਗਇਨ",
+    "adminLogin": "ਐਡਮਿਨ ਲਾਗਇਨ"
+  },
+  "auth": {
+    "login": "ਲਾਗਇਨ",
+    "register": "ਰਜਿਸਟਰ",
+    "mobileNumber": "ਮੋਬਾਈਲ ਨੰਬਰ",
+    "otp": "OTP",
+    "verifyOTP": "OTP ਪੁਸ਼ਟੀ ਕਰੋ",
+    "resendOTP": "OTP ਦੁਬਾਰਾ ਭੇਜੋ",
+    "officerId": "ਅਫਸਰ ਆਈਡੀ",
+    "password": "ਪਾਸਵਰਡ",
+    "email": "ਈਮੇਲ",
+    "name": "ਨਾਮ",
+    "address": "ਪਤਾ",
+    "enterMobile": "ਆਪਣਾ ਮੋਬਾਈਲ ਨੰਬਰ ਦਰਜ ਕਰੋ",
+    "enterOTP": "ਆਪਣੇ ਮੋਬਾਈਲ 'ਤੇ ਭੇਜਿਆ OTP ਦਰਜ ਕਰੋ",
+    "enterOfficerId": "ਆਪਣੀ ਅਫਸਰ ਆਈਡੀ ਦਰਜ ਕਰੋ",
+    "enterPassword": "ਆਪਣਾ ਪਾਸਵਰਡ ਦਰਜ ਕਰੋ",
+    "enterEmail": "ਆਪਣੀ ਈਮੇਲ ਦਰਜ ਕਰੋ",
+    "loginSuccess": "ਲਾਗਇਨ ਸਫਲ",
+    "registerSuccess": "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਸਫਲ"
+  },
+  "citizen": {
+    "dashboard": "ਡੈਸ਼ਬੋਰਡ",
+    "newComplaint": "ਨਵੀਂ ਸ਼ਿਕਾਇਤ",
+    "trackComplaint": "ਸ਼ਿਕਾਇਤ ਟਰੈਕ ਕਰੋ",
+    "myComplaints": "ਮੇਰੀਆਂ ਸ਼ਿਕਾਇਤਾਂ",
+    "complaintNumber": "ਸ਼ਿਕਾਇਤ ਨੰਬਰ",
+    "status": "ਸਥਿਤੀ",
+    "createdAt": "ਬਣਾਇਆ ਗਿਆ",
+    "viewDetails": "ਵੇਰਵੇ ਦੇਖੋ",
+    "downloadReceipt": "ਰਸੀਦ ਡਾਊਨਲੋਡ ਕਰੋ"
+  },
+  "complaint": {
+    "title": "ਸਿਰਲੇਖ",
+    "description": "ਵੇਰਵਾ",
+    "category": "ਸ਼੍ਰੇਣੀ",
+    "priority": "ਤਰਜੀਹ",
+    "department": "ਵਿਭਾਗ",
+    "subDepartment": "ਉਪ-ਵਿਭਾਗ",
+    "location": "ਸਥਾਨ",
+    "documents": "ਦਸਤਾਵੇਜ਼",
+    "uploadDocuments": "ਦਸਤਾਵੇਜ਼ ਅੱਪਲੋਡ ਕਰੋ",
+    "createComplaint": "ਸ਼ਿਕਾਇਤ ਬਣਾਓ",
+    "updateComplaint": "ਸ਼ਿਕਾਇਤ ਅੱਪਡੇਟ ਕਰੋ",
+    "addRemarks": "ਟਿੱਪਣੀਆਂ ਸ਼ਾਮਲ ਕਰੋ",
+    "remarks": "ਟਿੱਪਣੀਆਂ",
+    "noComplaints": "ਕੋਈ ਸ਼ਿਕਾਇਤ ਨਹੀਂ ਮਿਲੀ"
+  },
+  "officer": {
+    "dashboard": "ਅਫਸਰ ਡੈਸ਼ਬੋਰਡ",
+    "assignedComplaints": "ਨਿਰਧਾਰਤ ਸ਼ਿਕਾਇਤਾਂ",
+    "subDepartment": "ਉਪ-ਵਿਭਾਗ",
+    "updateStatus": "ਸਥਿਤੀ ਅੱਪਡੇਟ ਕਰੋ"
+  },
+  "admin": {
+    "dashboard": "ਐਡਮਿਨ ਡੈਸ਼ਬੋਰਡ",
+    "departments": "ਵਿਭਾਗ",
+    "subDepartments": "ਉਪ-ਵਿਭਾਗ",
+    "officers": "ਅਫਸਰ",
+    "allComplaints": "ਸਾਰੀਆਂ ਸ਼ਿਕਾਇਤਾਂ",
+    "createDepartment": "ਵਿਭਾਗ ਬਣਾਓ",
+    "createSubDepartment": "ਉਪ-ਵਿਭਾਗ ਬਣਾਓ",
+    "createOfficer": "ਅਫਸਰ ਬਣਾਓ",
+    "assignOfficer": "ਅਫਸਰ ਨਿਰਧਾਰਤ ਕਰੋ"
+  },
+  "status": {
+    "pending": "ਬਕਾਇਆ",
+    "inProgress": "ਪ੍ਰਗਤੀ ਵਿੱਚ",
+    "resolved": "ਹੱਲ ਹੋ ਗਿਆ",
+    "rejected": "ਰੱਦ ਕੀਤਾ ਗਿਆ"
+  },
+  "priority": {
+    "low": "ਘੱਟ",
+    "medium": "ਮੱਧਮ",
+    "high": "ਉੱਚ",
+    "urgent": "ਜ਼ਰੂਰੀ"
+  }
+}

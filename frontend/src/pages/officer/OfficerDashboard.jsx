@@ -29,14 +29,6 @@ const OfficerDashboard = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [selectedComplaint, setSelectedComplaint] = useState(null);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [updateData, setUpdateData] = useState({
-    status: '',
-    remarks: '',
-    resolutionNotes: '',
-    rejectionReason: ''
-  });
 
   useEffect(() => {
     fetchComplaints();
@@ -59,28 +51,8 @@ const OfficerDashboard = () => {
   };
 
   const handleUpdateClick = (complaint) => {
-    setSelectedComplaint(complaint);
-    setUpdateData({
-      status: complaint.status,
-      remarks: '',
-      resolutionNotes: '',
-      rejectionReason: ''
-    });
-    setShowUpdateModal(true);
-  };
-
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
-    if (!selectedComplaint) return;
-
-    try {
-      await updateComplaint(selectedComplaint._id, updateData);
-      setShowUpdateModal(false);
-      setSelectedComplaint(null);
-      fetchComplaints();
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update complaint');
-    }
+    // Navigate to detailed view instead of showing modal
+    navigate(`/officer/complaint/${complaint._id}`);
   };
 
   const handleLogout = async () => {
@@ -246,7 +218,7 @@ const OfficerDashboard = () => {
                         onClick={() => handleUpdateClick(complaint)}
                         className="w-full lg:w-auto flex items-center gap-3 px-10 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 active:scale-95 transition-all shadow-xl shadow-slate-900/10"
                       >
-                        {t('officer.updateStatus')}
+                        View Details
                         <ChevronRight size={18} />
                       </button>
                     </div>
@@ -257,96 +229,6 @@ const OfficerDashboard = () => {
           </div>
         </div>
       </main>
-
-      {/* Advanced Status Update Modal */}
-      {showUpdateModal && selectedComplaint && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowUpdateModal(false)} />
-          <div className="bg-white rounded-[3rem] shadow-2xl relative z-10 w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-200">
-            <div className="p-10 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-              <div className="flex items-center gap-4">
-                <div className="p-4 bg-slate-900 text-white rounded-[1.25rem] shadow-xl shadow-slate-900/20">
-                  <MessageSquare size={28} />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none uppercase">Update Case</h3>
-                  <p className="text-indigo-600 font-mono font-bold mt-2 text-sm">RE: {selectedComplaint.complaintNumber}</p>
-                </div>
-              </div>
-              <button onClick={() => setShowUpdateModal(false)} className="p-2 text-slate-400 hover:text-slate-900 transition-colors">
-                <X size={32} />
-              </button>
-            </div>
-            
-            <form onSubmit={handleUpdateSubmit} className="p-10 space-y-6">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Lifecycle State *</label>
-                <select
-                  value={updateData.status}
-                  onChange={(e) => setUpdateData(prev => ({ ...prev, status: e.target.value }))}
-                  className="w-full px-6 py-5 bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white rounded-2xl outline-none transition-all font-black text-lg shadow-inner appearance-none cursor-pointer"
-                  required
-                >
-                  <option value={COMPLAINT_STATUS.PENDING}>Pending Allocation</option>
-                  <option value={COMPLAINT_STATUS.IN_PROGRESS}>In-Field Execution</option>
-                  <option value={COMPLAINT_STATUS.RESOLVED}>Officially Resolved</option>
-                  <option value={COMPLAINT_STATUS.REJECTED}>Reject / Dismiss</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Official Remarks</label>
-                <textarea
-                  value={updateData.remarks}
-                  onChange={(e) => setUpdateData(prev => ({ ...prev, remarks: e.target.value }))}
-                  className="w-full px-6 py-5 bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white rounded-[1.5rem] outline-none transition-all min-h-[120px] font-bold text-slate-700 shadow-inner resize-none"
-                  placeholder="Summarize the action taken..."
-                />
-              </div>
-
-              {updateData.status === COMPLAINT_STATUS.RESOLVED && (
-                <div className="space-y-2 animate-in slide-in-from-top-2">
-                  <label className="text-[10px] font-black text-emerald-600 uppercase tracking-widest ml-1">Resolution Protocol Notes</label>
-                  <textarea
-                    onChange={(e) => setUpdateData(prev => ({ ...prev, resolutionNotes: e.target.value }))}
-                    className="w-full px-6 py-5 bg-emerald-50 border-2 border-emerald-100 focus:border-emerald-500 focus:bg-white rounded-[1.5rem] outline-none transition-all min-h-[100px] font-bold text-slate-700"
-                    placeholder="Enter final resolution details for the citizen..."
-                    required
-                  />
-                </div>
-              )}
-
-              {updateData.status === COMPLAINT_STATUS.REJECTED && (
-                <div className="space-y-2 animate-in slide-in-from-top-2">
-                  <label className="text-[10px] font-black text-rose-600 uppercase tracking-widest ml-1">Dismissal Reason *</label>
-                  <textarea
-                    onChange={(e) => setUpdateData(prev => ({ ...prev, rejectionReason: e.target.value }))}
-                    className="w-full px-6 py-5 bg-rose-50 border-2 border-rose-100 focus:border-rose-500 focus:bg-white rounded-[1.5rem] outline-none transition-all min-h-[100px] font-bold text-slate-700"
-                    placeholder="Explain why this complaint was dismissed..."
-                    required
-                  />
-                </div>
-              )}
-
-              <div className="flex gap-4 pt-6">
-                <button type="submit" className="flex-1 py-5 bg-indigo-700 text-white rounded-2xl font-black text-lg hover:bg-indigo-800 transition-all active:scale-95 shadow-xl shadow-indigo-900/20">
-                  {t('common.save')}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowUpdateModal(false);
-                    setSelectedComplaint(null);
-                  }}
-                  className="flex-1 py-5 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all"
-                >
-                  {t('common.cancel')}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
