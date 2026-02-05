@@ -438,6 +438,116 @@ const getAllDepartments = async (req, res) => {
 };
 
 /**
+ * @route   PUT /api/admin/departments/:id
+ * @desc    Update department details
+ * @access  Super Admin only
+ */
+const updateDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    
+    const department = await Department.findById(id);
+    if (!department) {
+      return res.status(404).json({
+        success: false,
+        message: 'Department not found'
+      });
+    }
+    
+    // Update fields
+    if (name) department.name = name.trim();
+    if (description !== undefined) department.description = description.trim();
+    
+    await department.save();
+    
+    // Create audit log
+    await createAuditLog({
+      action: 'DEPARTMENT_UPDATE',
+      user: req.user,
+      entityType: 'DEPARTMENT',
+      entityId: department._id,
+      details: {
+        departmentName: department.name,
+        departmentCode: department.code,
+        updatedBy: req.user.adminName
+      },
+      req
+    });
+    
+    res.json({
+      success: true,
+      message: 'Department updated successfully',
+      department: {
+        _id: department._id,
+        name: department.name,
+        code: department.code,
+        description: department.description,
+        isActive: department.isActive
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error updating department:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating department',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * @route   DELETE /api/admin/departments/:id
+ * @desc    Deactivate department
+ * @access  Super Admin only
+ */
+const deleteDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const department = await Department.findById(id);
+    if (!department) {
+      return res.status(404).json({
+        success: false,
+        message: 'Department not found'
+      });
+    }
+    
+    // Deactivate instead of hard delete
+    department.isActive = false;
+    await department.save();
+    
+    // Create audit log
+    await createAuditLog({
+      action: 'DEPARTMENT_DELETE',
+      user: req.user,
+      entityType: 'DEPARTMENT',
+      entityId: department._id,
+      details: {
+        departmentName: department.name,
+        departmentCode: department.code,
+        deactivatedBy: req.user.adminName
+      },
+      req
+    });
+    
+    res.json({
+      success: true,
+      message: 'Department deactivated successfully'
+    });
+    
+  } catch (error) {
+    console.error('Error deactivating department:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error deactivating department',
+      error: error.message
+    });
+  }
+};
+
+/**
  * @route   GET /api/admin/subdepartments
  * @desc    Get all sub-departments with department info
  * @access  Super Admin only
@@ -480,6 +590,123 @@ const getAllSubDepartments = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error fetching sub-departments',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * @route   PUT /api/admin/subdepartments/:id
+ * @desc    Update sub-department details
+ * @access  Super Admin only
+ */
+const updateSubDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    
+    const subDepartment = await SubDepartment.findById(id).populate('department', 'name code');
+    if (!subDepartment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Sub-department not found'
+      });
+    }
+    
+    // Update fields
+    if (name) subDepartment.name = name.trim();
+    if (description !== undefined) subDepartment.description = description.trim();
+    
+    await subDepartment.save();
+    
+    // Create audit log
+    await createAuditLog({
+      action: 'SUBDEPARTMENT_UPDATE',
+      user: req.user,
+      entityType: 'SUBDEPARTMENT',
+      entityId: subDepartment._id,
+      details: {
+        subDepartmentName: subDepartment.name,
+        subDepartmentCode: subDepartment.code,
+        parentDepartment: subDepartment.department.name,
+        updatedBy: req.user.adminName
+      },
+      req
+    });
+    
+    res.json({
+      success: true,
+      message: 'Sub-department updated successfully',
+      subDepartment: {
+        _id: subDepartment._id,
+        name: subDepartment.name,
+        code: subDepartment.code,
+        description: subDepartment.description,
+        department: {
+          _id: subDepartment.department._id,
+          name: subDepartment.department.name,
+          code: subDepartment.department.code
+        },
+        isActive: subDepartment.isActive
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error updating sub-department:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating sub-department',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * @route   DELETE /api/admin/subdepartments/:id
+ * @desc    Deactivate sub-department
+ * @access  Super Admin only
+ */
+const deleteSubDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const subDepartment = await SubDepartment.findById(id).populate('department', 'name');
+    if (!subDepartment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Sub-department not found'
+      });
+    }
+    
+    // Deactivate instead of hard delete
+    subDepartment.isActive = false;
+    await subDepartment.save();
+    
+    // Create audit log
+    await createAuditLog({
+      action: 'SUBDEPARTMENT_DELETE',
+      user: req.user,
+      entityType: 'SUBDEPARTMENT',
+      entityId: subDepartment._id,
+      details: {
+        subDepartmentName: subDepartment.name,
+        subDepartmentCode: subDepartment.code,
+        parentDepartment: subDepartment.department.name,
+        deactivatedBy: req.user.adminName
+      },
+      req
+    });
+    
+    res.json({
+      success: true,
+      message: 'Sub-department deactivated successfully'
+    });
+    
+  } catch (error) {
+    console.error('Error deactivating sub-department:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error deactivating sub-department',
       error: error.message
     });
   }
@@ -541,6 +768,94 @@ const getAllOfficers = async (req, res) => {
   }
 };
 
+/**
+ * @route   PUT /api/admin/officers/:id
+ * @desc    Update officer details
+ * @access  Super Admin only
+ */
+const updateOfficer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { officerName, password, email, mobileNumber, assignedSubDepartment } = req.body;
+    
+    const officer = await User.findOne({ _id: id, role: 'OFFICER' });
+    if (!officer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Officer not found'
+      });
+    }
+    
+    // Update fields
+    if (officerName) officer.officerName = officerName.trim();
+    if (email) officer.email = email.toLowerCase().trim();
+    if (mobileNumber) officer.mobileNumber = mobileNumber.trim();
+    if (password) {
+      officer.password = password; // Will be hashed by pre-save middleware
+      officer.isTemporaryPassword = true;
+      officer.passwordChangeRequired = true;
+    }
+    if (assignedSubDepartment) {
+      // Get the sub-department to find its parent department
+      const subDept = await SubDepartment.findById(assignedSubDepartment);
+      if (subDept) {
+        officer.assignedSubDepartment = assignedSubDepartment;
+        officer.assignedDepartment = subDept.department;
+      }
+    }
+    
+    await officer.save();
+    
+    // Populate for response
+    await officer.populate('assignedDepartment assignedSubDepartment');
+    
+    // Create audit log
+    await createAuditLog({
+      action: 'OFFICER_UPDATE',
+      user: req.user,
+      entityType: 'USER',
+      entityId: officer._id,
+      details: {
+        officerId: officer.officerId,
+        officerName: officer.officerName,
+        updatedBy: req.user.adminName
+      },
+      req
+    });
+    
+    res.json({
+      success: true,
+      message: 'Officer updated successfully',
+      officer: {
+        _id: officer._id,
+        officerId: officer.officerId,
+        officerName: officer.officerName,
+        email: officer.email,
+        mobileNumber: officer.mobileNumber,
+        assignedDepartment: officer.assignedDepartment ? {
+          _id: officer.assignedDepartment._id,
+          name: officer.assignedDepartment.name,
+          code: officer.assignedDepartment.code
+        } : null,
+        assignedSubDepartment: officer.assignedSubDepartment ? {
+          _id: officer.assignedSubDepartment._id,
+          name: officer.assignedSubDepartment.name,
+          code: officer.assignedSubDepartment.code
+        } : null,
+        isActive: officer.isActive
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error updating officer:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating officer',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   createDepartment,
   createSubDepartment,
@@ -549,5 +864,10 @@ module.exports = {
   retireOfficerFromSystem,
   getAllDepartments,
   getAllSubDepartments,
-  getAllOfficers
+  getAllOfficers,
+  updateDepartment,
+  deleteDepartment,
+  updateSubDepartment,
+  deleteSubDepartment,
+  updateOfficer
 };

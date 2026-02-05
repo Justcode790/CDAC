@@ -66,6 +66,26 @@ router.get('/departments',
   getAllDepartments
 );
 
+/**
+ * @route   PUT /api/admin/departments/:id
+ * @desc    Update department details
+ * @access  Super Admin only
+ */
+router.put('/departments/:id',
+  requireSuperAdminForOperation('DEPARTMENT_UPDATE'),
+  require('../controllers/adminController.js').updateDepartment
+);
+
+/**
+ * @route   DELETE /api/admin/departments/:id
+ * @desc    Deactivate department
+ * @access  Super Admin only
+ */
+router.delete('/departments/:id',
+  requireSuperAdminForOperation('DEPARTMENT_DELETE'),
+  require('../controllers/adminController.js').deleteDepartment
+);
+
 // Sub-Department Management Routes
 /**
  * @route   POST /api/admin/subdepartments
@@ -86,6 +106,26 @@ router.post('/subdepartments',
 router.get('/subdepartments',
   requireSuperAdmin,
   getAllSubDepartments
+);
+
+/**
+ * @route   PUT /api/admin/subdepartments/:id
+ * @desc    Update sub-department details
+ * @access  Super Admin only
+ */
+router.put('/subdepartments/:id',
+  requireSuperAdminForOperation('SUBDEPARTMENT_UPDATE'),
+  require('../controllers/adminController.js').updateSubDepartment
+);
+
+/**
+ * @route   DELETE /api/admin/subdepartments/:id
+ * @desc    Deactivate sub-department
+ * @access  Super Admin only
+ */
+router.delete('/subdepartments/:id',
+  requireSuperAdminForOperation('SUBDEPARTMENT_DELETE'),
+  require('../controllers/adminController.js').deleteSubDepartment
 );
 
 // Officer Management Routes
@@ -111,6 +151,16 @@ router.post('/officers',
 router.get('/officers',
   requireSuperAdmin,
   getAllOfficers
+);
+
+/**
+ * @route   PUT /api/admin/officers/:id
+ * @desc    Update officer details
+ * @access  Super Admin only
+ */
+router.put('/officers/:id',
+  requireSuperAdminForOperation('OFFICER_UPDATE'),
+  require('../controllers/adminController.js').updateOfficer
 );
 
 /**

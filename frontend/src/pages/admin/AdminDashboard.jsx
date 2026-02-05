@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
-import { getSystemStatus } from '../../services/systemService';
+import { getSystemStatus, getAuditLogs } from '../../services/systemService';
 import { ROUTES } from '../../utils/constants';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import { 
@@ -14,7 +14,9 @@ import {
   LogOut, 
   ChevronRight,
   Activity,
-  AlertCircle
+  AlertCircle,
+  Clock,
+  User
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -28,10 +30,13 @@ const AdminDashboard = () => {
     totalDepartments: 0,
     totalOfficers: 0
   });
+  const [auditLogs, setAuditLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [logsLoading, setLogsLoading] = useState(true);
 
   useEffect(() => {
     fetchStats();
+    fetchAuditLogs();
   }, []);
 
   const fetchStats = async () => {
@@ -52,6 +57,67 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchAuditLogs = async () => {
+    try {
+      setLogsLoading(true);
+      const logsData = await getAuditLogs({ limit: 10 });
+      if (logsData.success) {
+        setAuditLogs(logsData.auditLogs || []);
+      }
+    } catch (err) {
+      console.error('Failed to load audit logs:', err);
+    } finally {
+      setLogsLoading(false);
+    }
+  };
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString();
+  };
+
+  const getActionLabel = (action) => {
+    const labels = {
+      'USER_LOGIN': 'Logged in',
+      'USER_LOGOUT': 'Logged out',
+      'DEPARTMENT_CREATE': 'Created department',
+      'DEPARTMENT_UPDATE': 'Updated department',
+      'DEPARTMENT_DELETE': 'Deactivated department',
+      'SUBDEPARTMENT_CREATE': 'Created sub-department',
+      'SUBDEPARTMENT_UPDATE': 'Updated sub-department',
+      'SUBDEPARTMENT_DELETE': 'Deactivated sub-department',
+      'OFFICER_CREATE': 'Created officer',
+      'OFFICER_UPDATE': 'Updated officer',
+      'OFFICER_TRANSFER': 'Transferred officer',
+      'OFFICER_RETIRE': 'Retired officer',
+      'COMPLAINT_CREATE': 'Created complaint',
+      'COMPLAINT_UPDATE': 'Updated complaint',
+      'COMPLAINT_STATUS_CHANGE': 'Changed complaint status',
+      'SUPER_ADMIN_ACCESS': 'Accessed admin panel',
+      'SUPER_ADMIN_OPERATION': 'Performed admin operation'
+    };
+    return labels[action] || action.replace(/_/g, ' ').toLowerCase();
+  };
+
+  const getActionColor = (action) => {
+    if (action.includes('CREATE')) return 'text-emerald-600 bg-emerald-50';
+    if (action.includes('UPDATE')) return 'text-blue-600 bg-blue-50';
+    if (action.includes('DELETE') || action.includes('RETIRE')) return 'text-red-600 bg-red-50';
+    if (action.includes('LOGIN')) return 'text-purple-600 bg-purple-50';
+    if (action.includes('TRANSFER')) return 'text-amber-600 bg-amber-50';
+    return 'text-slate-600 bg-slate-50';
   };
 
   const handleLogout = async () => {
@@ -173,15 +239,69 @@ const AdminDashboard = () => {
           <div className="lg:col-span-2">
             <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest px-2 mb-6">Recent Activity</h3>
             <div className="bg-white rounded-[2.5rem] border border-slate-200/60 shadow-sm overflow-hidden">
-              <div className="p-12 text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-50 text-slate-300 rounded-full mb-6">
-                  <Activity size={40} />
+              {logsLoading ? (
+                <div className="p-12 text-center">
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-50 text-slate-300 rounded-full mb-6">
+                    <Activity size={40} className="animate-pulse" />
+                  </div>
+                  <h4 className="text-xl font-bold text-slate-900">Loading activity...</h4>
                 </div>
-                <h4 className="text-xl font-bold text-slate-900">No recent logs found</h4>
-                <p className="text-slate-500 max-w-xs mx-auto mt-2">
-                  When system actions occur, they will appear here as a real-time activity stream.
-                </p>
-              </div>
+              ) : auditLogs.length === 0 ? (
+                <div className="p-12 text-center">
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-50 text-slate-300 rounded-full mb-6">
+                    <Activity size={40} />
+                  </div>
+                  <h4 className="text-xl font-bold text-slate-900">No recent logs found</h4>
+                  <p className="text-slate-500 max-w-xs mx-auto mt-2">
+                    When system actions occur, they will appear here as a real-time activity stream.
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y divide-slate-100">
+                  {auditLogs.map((log) => (
+                    <div key={log.id} className="p-6 hover:bg-slate-50/50 transition-colors">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                          <User size={20} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <p className="text-sm font-bold text-slate-900">
+                                {log.user?.name || 'System'}
+                              </p>
+                              <p className="text-sm text-slate-600 mt-1">
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold ${getActionColor(log.action)}`}>
+                                  {getActionLabel(log.action)}
+                                </span>
+                                {log.details?.departmentName && (
+                                  <span className="ml-2 text-slate-500">
+                                    {log.details.departmentName}
+                                  </span>
+                                )}
+                                {log.details?.subDepartmentName && (
+                                  <span className="ml-2 text-slate-500">
+                                    {log.details.subDepartmentName}
+                                  </span>
+                                )}
+                                {log.details?.officerName && (
+                                  <span className="ml-2 text-slate-500">
+                                    {log.details.officerName}
+                                  </span>
+                                )}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-xs text-slate-400 flex-shrink-0">
+                              <Clock size={12} />
+                              {formatTimestamp(log.timestamp)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
