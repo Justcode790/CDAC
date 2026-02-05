@@ -61,7 +61,8 @@ const auditLogSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User is required'],
+    required: false, // Allow null for public actions like OTP initiation
+    default: null,
     index: true
   },
   userRole: {

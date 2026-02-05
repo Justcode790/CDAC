@@ -59,13 +59,11 @@ const registerCitizen = async (req, res) => {
 
     await user.save();
 
-    // In production, send OTP via SMS service
-    // For now, return OTP in response (mock)
+    // Return OTP in response (mock OTP - no SMS service)
     res.status(201).json({
       success: true,
       message: 'OTP sent to mobile number',
-      // Remove this in production - only for development
-      otp: process.env.NODE_ENV === 'development' ? otp : undefined,
+      otp: otp, // Always return OTP for testing/demo purposes
       mobileNumber: mobileNumber
     });
   } catch (error) {
@@ -179,12 +177,11 @@ const loginCitizen = async (req, res) => {
     const otp = user.generateOTP();
     await user.save();
 
-    // In production, send OTP via SMS service
+    // Return OTP in response (mock OTP - no SMS service)
     res.json({
       success: true,
       message: 'OTP sent to your mobile number',
-      // Remove this in production - only for development
-      otp: process.env.NODE_ENV === 'development' ? otp : undefined,
+      otp: otp, // Always return OTP for testing/demo purposes
       mobileNumber: mobileNumber
     });
   } catch (error) {
@@ -226,12 +223,11 @@ const resendCitizenOTP = async (req, res) => {
     const otp = user.generateOTP();
     await user.save();
 
-    // In production, send OTP via SMS
+    // Return OTP in response (mock OTP - no SMS service)
     res.json({
       success: true,
       message: 'OTP resent to mobile number',
-      // Remove this in production
-      otp: process.env.NODE_ENV === 'development' ? otp : undefined
+      otp: otp // Always return OTP for testing/demo purposes
     });
   } catch (error) {
     console.error('Resend OTP error:', error);

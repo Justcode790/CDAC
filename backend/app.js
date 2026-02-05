@@ -111,7 +111,7 @@ if (process.env.NODE_ENV === 'development') {
 // Rate Limiting (more lenient in development)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === "production" ? 100 : 1000, // More requests in development
+  max: process.env.NODE_ENV === "production" ? 1000: 1000, // More requests in development
   message: {
     success: false,
     message: "Too many requests from this IP, please try again later.",
@@ -122,8 +122,8 @@ const limiter = rateLimit({
 app.use("/api/", limiter);
 
 // Body Parser Middleware
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.json());
+app.use(express.urlencoded());
 
 // Logging Middleware
 if (process.env.NODE_ENV === "development") {
@@ -169,19 +169,19 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // API Routes
-const authRoutes = require("./routes/authRoutes.js");
-const departmentRoutes = require("./routes/departmentRoutes.js");
-const subDepartmentRoutes = require("./routes/subDepartmentRoutes.js");
-const officerRoutes = require("./routes/officerRoutes.js");
-const complaintRoutes = require("./routes/complaintRoutes.js");
-const adminRoutes = require("./routes/adminRoutes.js");
+const authRoutes = require('./routes/authRoutes.js');
+const departmentRoutes = require('./routes/departmentRoutes.js');
+const subDepartmentRoutes = require('./routes/subDepartmentRoutes.js');
+const officerRoutes = require('./routes/officerRoutes.js');
+const complaintRoutes = require('./routes/complaintRoutes.js');
+const adminRoutes = require('./routes/adminRoutes.js');
 
-app.use("/api/auth", authRoutes);
-app.use("/api/departments", departmentRoutes);
-app.use("/api/subdepartments", subDepartmentRoutes);
-app.use("/api/officers", officerRoutes);
-app.use("/api/complaints", complaintRoutes);
-app.use("/api/admin", adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/subdepartments', subDepartmentRoutes);
+app.use('/api/officers', officerRoutes);
+app.use('/api/complaints', complaintRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 Handler
 app.use((req, res) => {

@@ -31,15 +31,15 @@ const createAuditLog = async (logData) => {
     } = logData;
 
     // Validate required fields
-    if (!action || !user) {
-      console.error('Audit log: Missing required fields');
+    if (!action) {
+      console.error('Audit log: Missing action');
       return;
     }
 
     const auditLog = new AuditLog({
       action,
-      user: user._id || user,
-      userRole: user.role,
+      user: user?._id || user || null,
+      userRole: user?.role || 'PUBLIC',
       entityType,
       entityId,
       details,

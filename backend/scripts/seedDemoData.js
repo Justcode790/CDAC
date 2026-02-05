@@ -80,21 +80,21 @@ const DEMO_DATA = {
 
   complaintTemplates: [
     // Electricity Department
-    { title: 'Power Outage in Sector 12', description: 'Frequent power cuts affecting residential area', category: 'POWER_OUTAGE', priority: 'HIGH' },
-    { title: 'Street Light Not Working', description: 'Street light pole #45 has been non-functional for 3 days', category: 'STREET_LIGHTING', priority: 'MEDIUM' },
-    { title: 'High Electricity Bill', description: 'Unusually high electricity bill this month, requesting review', category: 'BILLING_ISSUE', priority: 'LOW' },
+    { title: 'Power Outage in Sector 12', description: 'Frequent power cuts affecting residential area', category: 'ELECTRICITY', priority: 'HIGH' },
+    { title: 'Street Light Not Working', description: 'Street light pole #45 has been non-functional for 3 days', category: 'INFRASTRUCTURE', priority: 'MEDIUM' },
+    { title: 'High Electricity Bill', description: 'Unusually high electricity bill this month, requesting review', category: 'ELECTRICITY', priority: 'LOW' },
     
     // Water Department  
     { title: 'Water Supply Disruption', description: 'No water supply for past 2 days in residential complex', category: 'WATER_SUPPLY', priority: 'HIGH' },
-    { title: 'Water Pipeline Leakage', description: 'Major water leakage on Main Road causing waterlogging', category: 'PIPELINE_ISSUE', priority: 'HIGH' },
-    { title: 'Poor Water Quality', description: 'Water supplied has unusual taste and color', category: 'WATER_QUALITY', priority: 'MEDIUM' },
+    { title: 'Water Pipeline Leakage', description: 'Major water leakage on Main Road causing waterlogging', category: 'WATER_SUPPLY', priority: 'HIGH' },
+    { title: 'Poor Water Quality', description: 'Water supplied has unusual taste and color', category: 'WATER_SUPPLY', priority: 'MEDIUM' },
     
     // Gas Department
-    { title: 'Gas Leakage Suspected', description: 'Strong gas smell detected near residential building', category: 'GAS_LEAKAGE', priority: 'CRITICAL' },
-    { title: 'Gas Connection Request', description: 'Request for new gas connection for residential use', category: 'NEW_CONNECTION', priority: 'LOW' },
+    { title: 'Gas Leakage Suspected', description: 'Strong gas smell detected near residential building', category: 'PUBLIC_SAFETY', priority: 'URGENT' },
+    { title: 'Gas Connection Request', description: 'Request for new gas connection for residential use', category: 'OTHER', priority: 'LOW' },
     
     // Municipal Department
-    { title: 'Garbage Collection Missed', description: 'Garbage not collected for 3 days, causing hygiene issues', category: 'WASTE_MANAGEMENT', priority: 'MEDIUM' },
+    { title: 'Garbage Collection Missed', description: 'Garbage not collected for 3 days, causing hygiene issues', category: 'SANITATION', priority: 'MEDIUM' },
     { title: 'Road Pothole Repair', description: 'Large potholes on main road causing traffic issues', category: 'ROAD_MAINTENANCE', priority: 'MEDIUM' },
     { title: 'Stray Dog Menace', description: 'Increasing stray dog population causing safety concerns', category: 'PUBLIC_SAFETY', priority: 'MEDIUM' }
   ]
@@ -358,7 +358,7 @@ const seedComplaints = async (citizens, departments, subDepartments, officers) =
   console.log('📋 Seeding complaints...');
   const createdComplaints = [];
   const statuses = ['PENDING', 'IN_PROGRESS', 'RESOLVED', 'REJECTED'];
-  const priorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
+  const priorities = ['LOW', 'MEDIUM', 'HIGH', 'URGENT'];
   
   // Create complaints for each department
   for (const [deptCode, subDeptList] of Object.entries(subDepartments)) {
@@ -399,8 +399,9 @@ const seedComplaints = async (citizens, departments, subDepartments, officers) =
               longitude: 77.2090 + (Math.random() - 0.5) * 0.1
             },
             remarks: status === 'RESOLVED' ? [{
-              message: 'Issue resolved successfully',
+              text: 'Issue resolved successfully',
               addedBy: assignedOfficer?._id,
+              role: 'OFFICER',
               addedAt: new Date()
             }] : []
           });
