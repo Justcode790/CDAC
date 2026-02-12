@@ -180,9 +180,13 @@ const communicationRoutes = require('./routes/communicationRoutes.js');
 const connectionRoutes = require('./routes/connectionRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
 const publicRoutes = require('./routes/publicRoutes.js');
+const demoRoutes = require('./routes/demoRoutes.js');
 
 // Public routes (no auth required) - must be before authenticated routes
 app.use('/api/public', publicRoutes);
+
+// Demo routes (only enabled in development/demo mode)
+app.use('/api/demo', demoRoutes);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);
