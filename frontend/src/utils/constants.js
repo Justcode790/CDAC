@@ -22,6 +22,7 @@ export const APP_CONFIG = {
   environment:
     import.meta.env.VITE_APP_ENV ||
     (isDevelopment ? "development" : "production"),
+  logoUrl: import.meta.env.VITE_LOGO_URL || "/logo.png",
   isDevelopment,
   isProduction,
 };

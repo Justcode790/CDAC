@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
-import { createComplaint } from "../../services/complaintService";
+import { createComplaint, downloadReceipt } from "../../services/complaintService";
 import {
   getDepartmentsPublic,
   getSubDepartmentsPublic,
@@ -11,6 +11,7 @@ import {
   COMPLAINT_CATEGORIES,
   COMPLAINT_PRIORITY,
 } from "../../utils/constants";
+import ComplaintQRCode from "../../components/ComplaintQRCode";
 import {
   ArrowLeft,
   ArrowRight,
@@ -24,6 +25,8 @@ import {
   Loader2,
   AlertCircle,
   ChevronRight,
+  Download,
+  QrCode,
 } from "lucide-react";
 
 const NewComplaint = () => {
@@ -48,6 +51,8 @@ const NewComplaint = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdComplaint, setCreatedComplaint] = useState(null);
 
   useEffect(() => {
     fetchDepartments();
@@ -171,13 +176,21 @@ const NewComplaint = () => {
         formDataToSend.append("location[address]", formData.location.address);
       files.forEach((file) => formDataToSend.append("documents", file));
 
-      await createComplaint(formDataToSend);
-      setSuccess("Complaint created successfully!");
-      setTimeout(() => navigate(ROUTES.CITIZEN_DASHBOARD), 2000);
+      const response = await createComplaint(formDataToSend);
+      setCreatedComplaint(response.complaint);
+      setShowSuccessModal(true);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to create complaint.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadReceipt = async () => {
+    try {
+      await downloadReceipt(createdComplaint._id);
+    } catch (err) {
+      alert('Failed to download receipt');
     }
   };
 
@@ -539,6 +552,78 @@ const NewComplaint = () => {
           </div>
         </form>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && createdComplaint && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-8 animate-in zoom-in-95">
+            {/* Success Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="p-4 bg-green-100 rounded-full">
+                <CheckCircle2 className="text-green-600" size={64} />
+              </div>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-3xl font-black text-slate-900 text-center mb-2">
+              Complaint Registered Successfully!
+            </h2>
+            <p className="text-slate-600 text-center mb-8">
+              Your complaint has been submitted and assigned to the relevant department
+            </p>
+
+            {/* Complaint Number */}
+            <div className="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-6 mb-8 text-center">
+              <p className="text-sm font-bold text-indigo-600 mb-2">Your Complaint Number</p>
+              <p className="text-4xl font-black text-indigo-900 font-mono">
+                {createdComplaint.complaintNumber}
+              </p>
+              <p className="text-xs text-slate-600 mt-2">
+                Save this number for tracking your complaint
+              </p>
+            </div>
+
+            {/* QR Code */}
+            <div className="flex justify-center mb-8">
+              <ComplaintQRCode 
+                complaintId={createdComplaint._id}
+                complaintNumber={createdComplaint.complaintNumber}
+                size={180}
+                showDownload={true}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <button
+                onClick={handleDownloadReceipt}
+                className="flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors"
+              >
+                <Download size={20} />
+                Download Receipt (PDF)
+              </button>
+              <button
+                onClick={() => navigate(`${ROUTES.CITIZEN_TRACK_COMPLAINT}?id=${createdComplaint._id}`)}
+                className="flex items-center justify-center gap-2 px-6 py-4 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-colors"
+              >
+                <QrCode size={20} />
+                Track Complaint
+              </button>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setShowSuccessModal(false);
+                navigate(ROUTES.CITIZEN_DASHBOARD);
+              }}
+              className="w-full mt-4 px-6 py-3 border-2 border-slate-300 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-colors"
+            >
+              Go to Dashboard
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
-import { getComplaints } from '../../services/complaintService';
+import { getComplaints, downloadReceipt } from '../../services/complaintService';
 import { ROUTES, COMPLAINT_STATUS } from '../../utils/constants';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import { 
@@ -15,7 +15,8 @@ import {
   Inbox, 
   LayoutGrid,
   Loader2,
-  FileText
+  FileText,
+  Download
 } from 'lucide-react';
 
 const CitizenDashboard = () => {
@@ -40,6 +41,16 @@ const CitizenDashboard = () => {
       setError(err.response?.data?.message || 'Failed to load complaints');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadReceipt = async (e, complaintId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await downloadReceipt(complaintId);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to download receipt');
     }
   };
 
@@ -196,6 +207,13 @@ const CitizenDashboard = () => {
                             {new Date(complaint.createdAt).toLocaleDateString()}
                           </span>
                         </div>
+                        <button
+                          onClick={(e) => handleDownloadReceipt(e, complaint._id)}
+                          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors text-sm"
+                        >
+                          <Download size={16} />
+                          Receipt
+                        </button>
                       </div>
                     </div>
                     

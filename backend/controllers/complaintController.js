@@ -548,7 +548,7 @@ const addDocuments = async (req, res) => {
 const downloadReceipt = async (req, res) => {
   try {
     const complaint = await Complaint.findById(req.params.id)
-      .populate('citizen', 'name mobileNumber email')
+      .populate('citizen', 'name mobileNumber email address')
       .populate('department', 'name code')
       .populate('subDepartment', 'name code');
 
@@ -568,7 +568,7 @@ const downloadReceipt = async (req, res) => {
     }
 
     // Generate PDF receipt
-    const { generateComplaintReceipt } = require('../services/receiptService.js');
+    const { generateComplaintReceipt } = require('../utils/pdfGenerator.js');
     const pdfBuffer = await generateComplaintReceipt(complaint, complaint.citizen);
 
     // Set response headers for PDF download

@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import AppRoutes from './routes/AppRoutes';
+import IdleTimerWrapper from './components/IdleTimerWrapper';
 import { APP_CONFIG } from './utils/constants';
 
 function App() {
@@ -23,7 +24,9 @@ function App() {
     <BrowserRouter>
       <LanguageProvider>
         <AuthProvider>
-          <AppRoutes />
+          <IdleTimerWrapper>
+            <AppRoutes />
+          </IdleTimerWrapper>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>
