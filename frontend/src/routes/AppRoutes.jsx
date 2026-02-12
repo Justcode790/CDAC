@@ -23,6 +23,7 @@ import TrackComplaint from '../pages/citizen/TrackComplaint';
 import OfficerLogin from '../pages/officer/OfficerLogin';
 import OfficerDashboard from '../pages/officer/OfficerDashboard';
 import ComplaintDetails from '../pages/officer/ComplaintDetails';
+import PendingTransfers from '../pages/officer/PendingTransfers';
 
 // Admin Pages (will be created)
 import AdminLogin from '../pages/admin/AdminLogin';
@@ -88,6 +89,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={[ROLES.OFFICER]}>
             <ComplaintDetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/officer/pending-transfers"
+        element={
+          <ProtectedRoute allowedRoles={[ROLES.OFFICER]}>
+            <PendingTransfers />
           </ProtectedRoute>
         }
       />

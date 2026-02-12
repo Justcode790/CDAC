@@ -51,7 +51,9 @@ const departmentSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true,
-  collection: 'departments'
+  collection: 'departments',
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Indexes
@@ -64,6 +66,13 @@ departmentSchema.virtual('subDepartmentsCount', {
   localField: '_id',
   foreignField: 'department',
   count: true
+});
+
+// Virtual to get sub-departments list
+departmentSchema.virtual('subDepartments', {
+  ref: 'SubDepartment',
+  localField: '_id',
+  foreignField: 'department'
 });
 
 // Virtual to get officers count

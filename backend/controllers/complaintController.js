@@ -226,18 +226,83 @@ const getComplaintById = async (req, res) => {
       });
     }
 
-    // Officers can only see complaints from their sub-department
-    if (req.user.role === 'OFFICER' && 
-        complaint.subDepartment._id.toString() !== req.user.assignedSubDepartment?.toString()) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. This complaint is not assigned to your sub-department.'
+    // Officers can only see complaints from their sub-department OR complaints with pending transfers to their sub-department
+    let roleContext = null;
+    let pendingTransfer = null;
+    
+    if (req.user.role === 'OFFICER') {
+      const complaintSubDeptId = complaint.subDepartment?._id?.toString() || complaint.subDepartment?.toString();
+      const userSubDeptId = req.user.assignedSubDepartment?.toString();
+      const userDeptId = req.user.assignedDepartment?.toString();
+      
+      // Check if complaint is currently assigned to officer's sub-department
+      const isCurrentOwner = userSubDeptId && complaintSubDeptId === userSubDeptId;
+      
+      // Check if there's a pending transfer TO officer's sub-department (they are destination)
+      const ComplaintTransfer = require('../models/ComplaintTransfer');
+      const pendingTransferToMe = await ComplaintTransfer.findOne({
+        complaint: complaint._id,
+        toSubDepartment: userSubDeptId,
+        transferStatus: 'PENDING',
+        isActive: true
+      })
+      .populate('fromDepartment', 'name code')
+      .populate('fromSubDepartment', 'name code');
+      
+      // Check if there's a pending transfer FROM officer's sub-department (they are source)
+      const pendingTransferFromMe = await ComplaintTransfer.findOne({
+        complaint: complaint._id,
+        fromSubDepartment: userSubDeptId,
+        transferStatus: 'PENDING',
+        isActive: true
       });
+      
+      // Check if there's ANY pending transfer for this complaint
+      const anyPendingTransfer = await ComplaintTransfer.findOne({
+        complaint: complaint._id,
+        transferStatus: 'PENDING',
+        isActive: true
+      });
+      
+      console.log('Authorization check:', {
+        complaintSubDeptId,
+        userSubDeptId,
+        isCurrentOwner,
+        hasPendingTransferToMe: !!pendingTransferToMe,
+        hasPendingTransferFromMe: !!pendingTransferFromMe,
+        hasAnyPendingTransfer: !!anyPendingTransfer
+      });
+      
+      if (!userSubDeptId || (!isCurrentOwner && !pendingTransferToMe)) {
+        return res.status(403).json({
+          success: false,
+          message: 'Access denied. This complaint is not assigned to your sub-department.'
+        });
+      }
+      
+      // Build role context for frontend
+      // Key logic: Can transfer ONLY if current owner AND no pending transfer exists
+      roleContext = {
+        isCurrentOwner,
+        isDestination: !!pendingTransferToMe,
+        isSource: !!pendingTransferFromMe,
+        hasPendingTransfer: !!anyPendingTransfer,
+        pendingTransferId: pendingTransferToMe?._id,
+        canTransfer: isCurrentOwner && !anyPendingTransfer, // Can transfer only if owner and no pending transfer
+        canAcceptTransfer: !!pendingTransferToMe,
+        canRejectTransfer: !!pendingTransferToMe,
+        canUpdateStatus: isCurrentOwner || !!pendingTransferToMe
+      };
+      
+      // Set pendingTransfer for response
+      pendingTransfer = pendingTransferToMe;
     }
 
     res.json({
       success: true,
-      complaint
+      complaint,
+      roleContext,
+      pendingTransfer
     });
   } catch (error) {
     console.error('Get complaint error:', error);
@@ -266,12 +331,16 @@ const updateComplaint = async (req, res) => {
     }
 
     // Access control for officers
-    if (req.user.role === 'OFFICER' && 
-        complaint.subDepartment.toString() !== req.user.assignedSubDepartment?.toString()) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. This complaint is not assigned to your sub-department.'
-      });
+    if (req.user.role === 'OFFICER') {
+      const complaintSubDeptId = complaint.subDepartment?.toString();
+      const userSubDeptId = req.user.assignedSubDepartment?.toString();
+      
+      if (!userSubDeptId || complaintSubDeptId !== userSubDeptId) {
+        return res.status(403).json({
+          success: false,
+          message: 'Access denied. This complaint is not assigned to your sub-department.'
+        });
+      }
     }
 
     // Only officers and admin can update

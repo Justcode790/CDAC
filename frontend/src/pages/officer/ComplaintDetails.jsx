@@ -16,8 +16,15 @@ import {
   getComplaintById,
   updateComplaint,
 } from "../../services/complaintService";
+import {
+  acceptTransfer,
+  rejectTransfer,
+} from "../../services/transferService";
 import { ROUTES, COMPLAINT_STATUS } from "../../utils/constants";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
+import TransferModal from "../../components/TransferModal";
+import TransferHistory from "../../components/TransferHistory";
+import CommunicationThread from "../../components/CommunicationThread";
 import {
   ArrowLeft,
   User,
@@ -33,6 +40,8 @@ import {
   MessageSquare,
   Eye,
   Shield,
+  ArrowRightLeft,
+  XCircle,
 } from "lucide-react";
 
 const ComplaintDetails = () => {
@@ -47,6 +56,9 @@ const ComplaintDetails = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [roleContext, setRoleContext] = useState(null);
+  const [pendingTransfer, setPendingTransfer] = useState(null);
 
   const [updateData, setUpdateData] = useState({
     status: "",
@@ -64,6 +76,8 @@ const ComplaintDetails = () => {
       setLoading(true);
       const response = await getComplaintById(id);
       setComplaint(response.complaint);
+      setRoleContext(response.roleContext);
+      setPendingTransfer(response.pendingTransfer);
       setUpdateData((prev) => ({ ...prev, status: response.complaint.status }));
     } catch (err) {
       setError(
@@ -87,6 +101,56 @@ const ComplaintDetails = () => {
       alert(err.response?.data?.message || "Failed to update complaint");
     } finally {
       setUpdating(false);
+    }
+  };
+
+  const handleTransferSuccess = async () => {
+    setShowTransferModal(false);
+    // Show success message
+    alert('Complaint transferred successfully! The page will refresh to show the updated status.');
+    // Refresh complaint data to show new state
+    await fetchComplaintDetails();
+  };
+
+  const handleAcceptTransfer = async (transferId) => {
+    if (!confirm('Accept this complaint transfer? The complaint will be assigned to your sub-department and you will become the owner.')) return;
+    
+    setLoading(true); // Show loading state
+    try {
+      const response = await acceptTransfer(id, transferId);
+      if (response.success) {
+        // Refresh the complaint details to show updated state
+        await fetchComplaintDetails();
+        alert('Transfer accepted successfully! You are now the owner of this complaint.');
+      } else {
+        alert(response.message || 'Failed to accept transfer');
+        setLoading(false);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error accepting transfer');
+      console.error(err);
+      setLoading(false);
+    }
+  };
+
+  const handleRejectTransfer = async (transferId) => {
+    const reason = prompt('Please provide a reason for rejecting this transfer:');
+    if (!reason || !reason.trim()) return;
+    
+    setLoading(true); // Show loading state
+    try {
+      const response = await rejectTransfer(id, transferId, reason);
+      if (response.success) {
+        alert('Transfer rejected successfully!');
+        navigate(ROUTES.OFFICER_DASHBOARD);
+      } else {
+        alert(response.message || 'Failed to reject transfer');
+        setLoading(false);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error rejecting transfer');
+      console.error(err);
+      setLoading(false);
     }
   };
 
@@ -426,22 +490,105 @@ const ComplaintDetails = () => {
                   <MessageSquare size={24} />
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight">
-                  Update Status
+                  {roleContext?.isDestination ? 'Transfer Actions' : 'Update Status'}
                 </h3>
               </div>
 
-              {!showUpdateForm ? (
+              {/* Show Accept/Reject for Destination with Pending Transfer */}
+              {roleContext?.isDestination && pendingTransfer ? (
                 <div className="space-y-4">
+                  <div className="bg-yellow-500/20 border-2 border-yellow-300/30 rounded-xl p-4 mb-4">
+                    <p className="text-yellow-100 font-bold text-sm mb-2">
+                      📥 Transfer Received
+                    </p>
+                    <p className="text-yellow-50 text-xs">
+                      From: {pendingTransfer.fromSubDepartment?.name}
+                    </p>
+                    <p className="text-yellow-50 text-xs mt-1">
+                      Reason: {pendingTransfer.transferReason}
+                    </p>
+                    {pendingTransfer.transferNotes && (
+                      <p className="text-yellow-50 text-xs mt-2 italic">
+                        "{pendingTransfer.transferNotes}"
+                      </p>
+                    )}
+                  </div>
+                  
+                  <button
+                    onClick={() => handleAcceptTransfer(pendingTransfer._id)}
+                    className="w-full py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <CheckCircle2 size={20} />
+                    Accept Transfer
+                  </button>
+                  
+                  <button
+                    onClick={() => handleRejectTransfer(pendingTransfer._id)}
+                    className="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <XCircle size={20} />
+                    Reject Transfer
+                  </button>
+                </div>
+              ) : !showUpdateForm ? (
+                <div className="space-y-4">
+                  {/* Show warning if there's a pending transfer FROM this department */}
+                  {roleContext?.isSource && (
+                    <div className="bg-orange-500/20 border-2 border-orange-300/30 rounded-xl p-4 mb-4">
+                      <p className="text-orange-100 font-bold text-sm mb-2">
+                        ⏳ Transfer Sent
+                      </p>
+                      <p className="text-orange-50 text-xs leading-relaxed">
+                        You have sent this complaint for transfer. It is awaiting acceptance by the destination department. You cannot transfer it again until the current transfer is accepted or rejected.
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Show info if user is destination but hasn't accepted yet */}
+                  {roleContext?.isDestination && !roleContext?.isCurrentOwner && (
+                    <div className="bg-blue-500/20 border-2 border-blue-300/30 rounded-xl p-4 mb-4">
+                      <p className="text-blue-100 font-bold text-sm mb-2">
+                        ℹ️ Pending Acceptance
+                      </p>
+                      <p className="text-blue-50 text-xs leading-relaxed">
+                        You must accept this transfer before you can transfer it to another department or update its status.
+                      </p>
+                    </div>
+                  )}
+                  
                   <p className="text-indigo-100 font-medium text-sm leading-relaxed">
                     Review all complaint details and evidence before updating
                     the status.
                   </p>
-                  <button
-                    onClick={() => setShowUpdateForm(true)}
-                    className="w-full py-4 bg-white text-indigo-700 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-indigo-50 transition-all shadow-xl"
-                  >
-                    Proceed to Update
-                  </button>
+                  
+                  {roleContext?.canUpdateStatus && !roleContext?.isDestination && (
+                    <button
+                      onClick={() => setShowUpdateForm(true)}
+                      className="w-full py-4 bg-white text-indigo-700 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-indigo-50 transition-all shadow-xl"
+                    >
+                      Proceed to Update
+                    </button>
+                  )}
+
+                  {/* Transfer Button - Show based on canTransfer permission */}
+                  {roleContext?.canTransfer ? (
+                    <button
+                      onClick={() => setShowTransferModal(true)}
+                      className="w-full py-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all border-2 border-white/30 flex items-center justify-center gap-2"
+                    >
+                      <ArrowRightLeft size={16} />
+                      Transfer Complaint
+                    </button>
+                  ) : roleContext?.hasPendingTransfer && roleContext?.isCurrentOwner ? (
+                    <button
+                      disabled
+                      className="w-full py-4 bg-white/5 text-white/40 rounded-2xl font-black text-sm uppercase tracking-widest border-2 border-white/10 flex items-center justify-center gap-2 cursor-not-allowed"
+                      title="Cannot transfer while a transfer is pending"
+                    >
+                      <ArrowRightLeft size={16} />
+                      Transfer Disabled (Pending)
+                    </button>
+                  ) : null}
                 </div>
               ) : (
                 <form onSubmit={handleUpdateSubmit} className="space-y-5">
@@ -578,7 +725,25 @@ const ComplaintDetails = () => {
             </div>
           </div>
         </div>
+
+        {/* Transfer History Section */}
+        <div className="mt-8">
+          <TransferHistory complaintId={complaint._id} />
+        </div>
+
+        {/* Communication Thread Section */}
+        <div className="mt-8">
+          <CommunicationThread complaintId={complaint._id} />
+        </div>
       </main>
+
+      {/* Transfer Modal */}
+      <TransferModal
+        complaint={complaint}
+        isOpen={showTransferModal}
+        onClose={() => setShowTransferModal(false)}
+        onSuccess={handleTransferSuccess}
+      />
 
       {/* Image Lightbox */}
       {selectedImage && (

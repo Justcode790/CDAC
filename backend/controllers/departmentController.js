@@ -103,6 +103,7 @@ const getDepartments = async (req, res) => {
 
     const departments = await Department.find(query)
       .populate('createdBy', 'adminName adminEmail')
+      .populate('subDepartments')
       .sort({ createdAt: -1 });
 
     res.json({

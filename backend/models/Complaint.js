@@ -112,6 +112,96 @@ const complaintSchema = new mongoose.Schema({
     ref: 'User',
     index: true
   },
+  
+  // Transfer History (embedded for quick access)
+  transferHistory: [{
+    fromDepartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Department'
+    },
+    fromSubDepartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SubDepartment'
+    },
+    toDepartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Department'
+    },
+    toSubDepartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SubDepartment'
+    },
+    transferredBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    transferredAt: {
+      type: Date,
+      default: Date.now
+    },
+    reason: {
+      type: String
+    },
+    status: {
+      type: String,
+      enum: ['PENDING', 'ACCEPTED', 'REJECTED'],
+      default: 'PENDING'
+    }
+  }],
+  
+  // Current Assignment
+  currentlyAssignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User' // null if unclaimed
+  },
+  
+  claimedAt: {
+    type: Date
+  },
+  
+  // Transfer Statistics
+  transferCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  
+  lastTransferredAt: {
+    type: Date
+  },
+  
+  // Escalation
+  isEscalated: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
+  
+  escalatedAt: {
+    type: Date
+  },
+  
+  escalatedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  
+  escalationReason: {
+    type: String,
+    trim: true,
+    maxlength: 500
+  },
+  
+  // Communication Count
+  communicationCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  
+  lastCommunicationAt: {
+    type: Date
+  },
   remarks: [{
     text: {
       type: String,
@@ -206,6 +296,107 @@ complaintSchema.pre('save', async function(next) {
   }
   next();
 });
+
+// Instance method to add transfer to history
+complaintSchema.methods.addTransferToHistory = function(transferData) {
+  this.transferHistory.push({
+    fromDepartment: transferData.fromDepartment,
+    fromSubDepartment: transferData.fromSubDepartment,
+    toDepartment: transferData.toDepartment,
+    toSubDepartment: transferData.toSubDepartment,
+    transferredBy: transferData.transferredBy,
+    transferredAt: new Date(),
+    reason: transferData.reason,
+    status: 'PENDING'
+  });
+  
+  this.transferCount += 1;
+  this.lastTransferredAt = new Date();
+  
+  return this.save();
+};
+
+// Instance method to update transfer status in history
+complaintSchema.methods.updateTransferStatus = function(transferId, status) {
+  const transfer = this.transferHistory.id(transferId);
+  if (transfer) {
+    transfer.status = status;
+    return this.save();
+  }
+  return Promise.reject(new Error('Transfer not found in history'));
+};
+
+// Instance method to escalate complaint
+complaintSchema.methods.escalate = function(escalatedBy, reason) {
+  this.isEscalated = true;
+  this.escalatedAt = new Date();
+  this.escalatedBy = escalatedBy;
+  this.escalationReason = reason;
+  
+  // Automatically set priority to HIGH if not already URGENT
+  if (this.priority !== 'URGENT') {
+    this.priority = 'HIGH';
+  }
+  
+  return this.save();
+};
+
+// Instance method to increment communication count
+complaintSchema.methods.incrementCommunicationCount = function() {
+  this.communicationCount += 1;
+  this.lastCommunicationAt = new Date();
+  return this.save();
+};
+
+// Instance method to claim complaint
+complaintSchema.methods.claimComplaint = function(officerId) {
+  this.currentlyAssignedTo = officerId;
+  this.claimedAt = new Date();
+  this.assignedOfficer = officerId; // Also update legacy field
+  return this.save();
+};
+
+// Instance method to unclaim complaint
+complaintSchema.methods.unclaimComplaint = function() {
+  this.currentlyAssignedTo = null;
+  this.claimedAt = null;
+  return this.save();
+};
+
+// Static method to get unclaimed complaints for a department
+complaintSchema.statics.getUnclaimedComplaints = function(departmentId, subDepartmentId = null) {
+  const query = {
+    department: departmentId,
+    currentlyAssignedTo: null,
+    status: { $in: ['PENDING', 'IN_PROGRESS'] }
+  };
+  
+  if (subDepartmentId) {
+    query.subDepartment = subDepartmentId;
+  }
+  
+  return this.find(query)
+    .populate('citizen', 'name mobileNumber')
+    .populate('department', 'name code')
+    .populate('subDepartment', 'name code')
+    .sort({ createdAt: -1 });
+};
+
+// Static method to get escalated complaints
+complaintSchema.statics.getEscalatedComplaints = function(departmentId = null) {
+  const query = { isEscalated: true };
+  
+  if (departmentId) {
+    query.department = departmentId;
+  }
+  
+  return this.find(query)
+    .populate('citizen', 'name mobileNumber')
+    .populate('department', 'name code')
+    .populate('subDepartment', 'name code')
+    .populate('escalatedBy', 'name officerName')
+    .sort({ escalatedAt: -1 });
+};
 
 const Complaint = mongoose.model('Complaint', complaintSchema);
 

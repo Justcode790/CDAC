@@ -174,6 +174,10 @@ const departmentRoutes = require('./routes/departmentRoutes.js');
 const subDepartmentRoutes = require('./routes/subDepartmentRoutes.js');
 const officerRoutes = require('./routes/officerRoutes.js');
 const complaintRoutes = require('./routes/complaintRoutes.js');
+// const serviceRequestRoutes = require('./routes/serviceRequestRoutes.js'); // TODO: Implement service request routes
+const transferRoutes = require('./routes/transferRoutes.js');
+const communicationRoutes = require('./routes/communicationRoutes.js');
+const connectionRoutes = require('./routes/connectionRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
 
 app.use('/api/auth', authRoutes);
@@ -181,6 +185,10 @@ app.use('/api/departments', departmentRoutes);
 app.use('/api/subdepartments', subDepartmentRoutes);
 app.use('/api/officers', officerRoutes);
 app.use('/api/complaints', complaintRoutes);
+// app.use('/api/service-requests', serviceRequestRoutes); // TODO: Implement service request routes
+app.use('/api', transferRoutes); // Transfer routes include /complaints/:id/transfer
+app.use('/api', communicationRoutes); // Communication routes include /complaints/:id/communications
+app.use('/api/connections', connectionRoutes);
 app.use('/api/admin', adminRoutes);
 
 // 404 Handler

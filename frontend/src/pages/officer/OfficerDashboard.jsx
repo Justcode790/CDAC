@@ -113,6 +113,25 @@ const OfficerDashboard = () => {
       </header>
 
       <main className="max-w-[1600px] mx-auto px-8 py-10">
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <button
+            onClick={() => navigate('/officer/pending-transfers')}
+            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all flex items-center justify-between group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Clock size={24} />
+              </div>
+              <div className="text-left">
+                <h3 className="text-lg font-black uppercase tracking-tight">Pending Transfers</h3>
+                <p className="text-sm text-orange-100 font-medium">Review and manage incoming complaint transfers</p>
+              </div>
+            </div>
+            <ChevronRight className="group-hover:translate-x-2 transition-transform" size={24} />
+          </button>
+        </div>
+
         {/* Statistics Bento Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
