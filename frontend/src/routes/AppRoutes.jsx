@@ -10,6 +10,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 
 // Pages
 import Landing from '../pages/Landing';
+import PublicTrack from '../pages/PublicTrack';
 
 // Citizen Pages (will be created)
 import CitizenLogin from '../pages/citizen/CitizenLogin';
@@ -37,6 +38,7 @@ const AppRoutes = () => {
     <Routes>
       {/* Public Routes */}
       <Route path={ROUTES.LANDING} element={<Landing />} />
+      <Route path="/track" element={<PublicTrack />} />
 
       {/* Citizen Routes */}
       <Route path={ROUTES.CITIZEN_LOGIN} element={<CitizenLogin />} />

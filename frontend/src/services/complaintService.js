@@ -79,3 +79,47 @@ export const downloadReceipt = async (id) => {
 
   return { success: true, message: "Receipt downloaded successfully" };
 };
+
+// Public API - Get complaint by ID (no auth required)
+export const getComplaintByIdPublic = async (id) => {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/public/complaints/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch complaint');
+  }
+  return response.json();
+};
+
+// Public API - Download receipt (no auth required)
+export const downloadReceiptPublic = async (id) => {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/public/complaints/${id}/receipt`);
+  
+  if (!response.ok) {
+    throw new Error('Failed to download receipt');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  
+  // Extract filename from Content-Disposition header or use default
+  const contentDisposition = response.headers.get("content-disposition");
+  let filename = `SUVIDHA_Receipt_${id}.pdf`;
+
+  if (contentDisposition) {
+    const filenameMatch = contentDisposition.match(/filename="?(.+)"?/i);
+    if (filenameMatch) {
+      filename = filenameMatch[1];
+    }
+  }
+
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+
+  // Cleanup
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+
+  return { success: true, message: "Receipt downloaded successfully" };
+};

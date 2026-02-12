@@ -179,6 +179,10 @@ const transferRoutes = require('./routes/transferRoutes.js');
 const communicationRoutes = require('./routes/communicationRoutes.js');
 const connectionRoutes = require('./routes/connectionRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
+const publicRoutes = require('./routes/publicRoutes.js');
+
+// Public routes (no auth required) - must be before authenticated routes
+app.use('/api/public', publicRoutes);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);

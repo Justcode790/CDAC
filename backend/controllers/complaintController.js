@@ -589,11 +589,103 @@ const downloadReceipt = async (req, res) => {
   }
 };
 
+/**
+ * @route   GET /api/public/complaints/:id
+ * @desc    Get complaint details for public tracking (no auth required)
+ * @access  Public
+ */
+const getComplaintByIdPublic = async (req, res) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id)
+      .populate('department', 'name code')
+      .populate('subDepartment', 'name code')
+      .select('-citizen -assignedOfficer -documents'); // Hide sensitive data
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      complaint: {
+        _id: complaint._id,
+        complaintNumber: complaint.complaintNumber,
+        title: complaint.title,
+        description: complaint.description,
+        category: complaint.category,
+        priority: complaint.priority,
+        status: complaint.status,
+        department: complaint.department,
+        subDepartment: complaint.subDepartment,
+        location: complaint.location,
+        createdAt: complaint.createdAt,
+        updatedAt: complaint.updatedAt,
+        remarks: complaint.remarks,
+        resolutionDetails: complaint.resolutionDetails,
+        rejectionDetails: complaint.rejectionDetails
+      }
+    });
+
+  } catch (error) {
+    console.error('Get complaint public error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching complaint'
+    });
+  }
+};
+
+/**
+ * @route   GET /api/public/complaints/:id/receipt
+ * @desc    Download complaint receipt as PDF (no auth required)
+ * @access  Public
+ */
+const downloadReceiptPublic = async (req, res) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id)
+      .populate('citizen', 'name mobileNumber')
+      .populate('department', 'name code')
+      .populate('subDepartment', 'name code');
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found'
+      });
+    }
+
+    // Generate PDF receipt
+    const { generateComplaintReceipt } = require('../utils/pdfGenerator.js');
+    const pdfBuffer = await generateComplaintReceipt(complaint, complaint.citizen);
+
+    // Set response headers for PDF download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=SUVIDHA_Receipt_${complaint.complaintNumber}.pdf`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+
+    // Send PDF
+    res.send(pdfBuffer);
+
+  } catch (error) {
+    console.error('Download receipt public error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error generating receipt',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   createComplaint,
   getComplaints,
   getComplaintById,
   updateComplaint,
   addDocuments,
-  downloadReceipt
+  downloadReceipt,
+  getComplaintByIdPublic,
+  downloadReceiptPublic
 };
