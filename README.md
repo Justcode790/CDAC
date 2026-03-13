@@ -4,6 +4,9 @@ A government-grade Smart City kiosk system built with MERN stack for C-DAC Hacka
 
 ## 🎯 Quick Demo Setup
 
+##live
+https://suvidha2026.netlify.app/
+
 **Want to see the system in action? Follow these steps:**
 
 1. **Clone and Install**
